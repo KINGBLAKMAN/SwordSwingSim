@@ -11,6 +11,7 @@ local services: { Bootstrap.Entry } = {
 	-- Remotes first: its init creates the RemoteEvents that services connect to in start.
 	{ name = "Remotes", module = require(script.Net.Remotes) },
 	{ name = "DataService", module = require(script.Services.DataService) },
+	{ name = "ComplianceService", module = require(script.Services.ComplianceService) },
 }
 
 Bootstrap.run("Server", services)

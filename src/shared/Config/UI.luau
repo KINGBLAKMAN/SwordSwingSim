@@ -260,6 +260,7 @@ UI.MENU = {
 	{ screen = "Pets", label = "Pets", icon = "ui.icon.pets" },
 	{ screen = "Weapons", label = "Swords", icon = "ui.icon.weapons" },
 	{ screen = "Quests", label = "Quests", icon = "ui.icon.quests" },
+	{ screen = "Islands", label = "Islands", icon = "ui.icon.islands" },
 	{ screen = "Store", label = "Store", icon = "ui.icon.store" },
 	{ screen = "Settings", label = "Settings", icon = "ui.icon.settings" },
 	{ screen = "Gallery", label = "Kit", icon = "ui.icon.gallery", studioOnly = true },

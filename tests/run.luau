@@ -13,6 +13,7 @@ local specs = {
 	Drops = require("./Drops.spec"),
 	Egg = require("./Egg.spec"),
 	Format = require("./Format.spec"),
+	Islands = require("./Islands.spec"),
 	LevelCurve = require("./LevelCurve.spec"),
 	Migrations = require("./Migrations.spec"),
 	OddsCalculator = require("./OddsCalculator.spec"),

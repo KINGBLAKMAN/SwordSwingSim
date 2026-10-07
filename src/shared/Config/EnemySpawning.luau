@@ -83,6 +83,7 @@ local EnemySpawning = {
 	-- roster is in Config/Enemies for later.
 	SPAWNED = {
 		NinjaVillage = { "kohai", "elder_kurogane", "karasu_ren" },
+		CursedCity = { "haiiro_wisp", "kazan", "henko" },
 	} :: { [string]: { string } },
 }
 

@@ -164,7 +164,7 @@ Run these in order.
    Add the x2 Coins game pass and the ProcessReceipt flow per TDD B10, with
    the idempotency test.
    ```
-8. **Island 2 gate**
+8. **Island 2 gate** — done (Oct 7, 2026)
    ```
    Add island 2's unlock, requirement and teleport per GDD A12.
    ```

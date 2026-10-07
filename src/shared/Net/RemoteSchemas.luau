@@ -24,10 +24,14 @@ export type Schema = {
 local Clicking = require(script.Parent.Parent.Config.Clicking)
 local Eggs = require(script.Parent.Parent.Config.Eggs)
 local Hatching = require(script.Parent.Parent.Config.Hatching)
+local PetRules = require(script.Parent.Parent.Config.PetRules)
 local Settings = require(script.Parent.Parent.Config.Settings)
 
 -- Keys in profile.autos a player may switch on or off.
 local AUTO_KEYS = { Clicking.AUTO_KEY }
+
+-- Pet uids are GUIDs without braces: 36 characters.
+local petUid = Validate.string({ maxLength = 36 })
 
 local eggIds = {}
 for eggId in Eggs do
@@ -90,6 +94,38 @@ local RemoteSchemas: { [string]: Schema } = {
 	HatchResult = {
 		direction = "ToClient",
 		args = {},
+	},
+
+	-- Client asks to equip or unequip one of its pets.
+	-- args: (uid: string)
+	EquipPet = {
+		direction = "ToServer",
+		args = { petUid },
+	},
+	UnequipPet = {
+		direction = "ToServer",
+		args = { petUid },
+	},
+
+	-- Client asks to fill its equip slots with its strongest pets.
+	EquipBest = {
+		direction = "ToServer",
+		args = {},
+	},
+
+	-- Client asks to delete some of its pets. The server refuses the whole
+	-- batch if any is locked, equipped or not theirs.
+	-- args: (uids: { string })
+	DeletePets = {
+		direction = "ToServer",
+		args = { Validate.arrayOf(petUid, PetRules.MAX_DELETE_BATCH) },
+	},
+
+	-- Client locks or unlocks one of its pets.
+	-- args: (uid: string, locked: boolean)
+	LockPet = {
+		direction = "ToServer",
+		args = { petUid, Validate.boolean() },
 	},
 
 	-- Client changes one of its on/off settings (Config/Settings).

@@ -73,6 +73,35 @@ function Validate.oneOf(allowed: { string }): Check
 	end
 end
 
+-- Accepts a plain list (keys 1..n, nothing else) of 1 to maxLength items,
+-- each passing the inner check. Used for things like a batch of pet uids.
+function Validate.arrayOf(inner: Check, maxLength: number): Check
+	return function(value: unknown): boolean
+		if typeof(value) ~= "table" then
+			return false
+		end
+		local list = value :: { [unknown]: unknown }
+		local count = 0
+		for key in list do
+			count += 1
+			-- Any non-index key, or more items than allowed, fails.
+			if typeof(key) ~= "number" or count > maxLength then
+				return false
+			end
+		end
+		if count == 0 then
+			return false
+		end
+		for index = 1, count do
+			local item = list[index]
+			if item == nil or not inner(item) then
+				return false
+			end
+		end
+		return true
+	end
+end
+
 -- Accepts nil, or anything the inner check accepts.
 function Validate.optional(inner: Check): Check
 	return function(value: unknown): boolean

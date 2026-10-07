@@ -57,4 +57,15 @@ tests["args checks every argument and refuses extras"] = function()
 	assert(Validate.args({}), "no arguments for a no-argument remote passes")
 end
 
+tests["arrayOf accepts short lists of valid items only"] = function()
+	local check = Validate.arrayOf(Validate.string({ maxLength = 8 }), 3)
+	assert(check({ "a" }) and check({ "a", "b", "c" }), "valid lists pass")
+	assert(not check({}), "empty list")
+	assert(not check({ "a", "b", "c", "d" }), "too long")
+	assert(not check({ "a", 5 }), "bad item")
+	assert(not check({ [1] = "a", [3] = "c" }), "gap")
+	assert(not check({ "a", extra = "b" }), "dictionary key")
+	assert(not check("a"), "not a table")
+end
+
 return tests

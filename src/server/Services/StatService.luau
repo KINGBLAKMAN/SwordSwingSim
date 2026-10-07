@@ -13,6 +13,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Clicking = require(ReplicatedStorage.Shared.Config.Clicking)
 local Drops = require(ReplicatedStorage.Shared.Config.Drops)
 local Hatching = require(ReplicatedStorage.Shared.Config.Hatching)
+local PetMath = require(ReplicatedStorage.Shared.Util.PetMath)
+local PetRules = require(ReplicatedStorage.Shared.Config.PetRules)
 local StatMath = require(ReplicatedStorage.Shared.Util.StatMath)
 local ComplianceService = require(script.Parent.ComplianceService)
 local DataService = require(script.Parent.DataService)
@@ -27,10 +29,13 @@ local StatService = {}
 
 local cache: { [Player]: Stats } = {}
 
--- Pet multiplier from equipped pets. No pets exist yet, so it's 1 until
--- PetService is built.
-local function petMultiplierFor(_player: Player): number
-	return StatMath.petMultiplier({})
+-- Pet multiplier from equipped pets: 1 + each one's Energy bonus.
+local function petMultiplierFor(player: Player): number
+	local data = DataService.get(player)
+	if data == nil then
+		return StatMath.petMultiplier({})
+	end
+	return StatMath.petMultiplier(PetMath.equippedBonuses(data.pets, data.equippedPets))
 end
 
 local function rebirthMultiplierFor(player: Player): number
@@ -92,6 +97,11 @@ end
 -- Energy one click earns: BASE_ENERGY_PER_CLICK × pet × rebirth multipliers.
 function StatService.energyPerClick(player: Player): number
 	return statsFor(player).energyPerClick
+end
+
+-- Pets the player can equip at once. Ranks and passes add to it later.
+function StatService.equipSlots(_player: Player): number
+	return PetRules.BASE_EQUIP_SLOTS
 end
 
 -- Sword damage multiplier. Swords arrive in Phase 2 (WeaponService); until

@@ -21,6 +21,7 @@ local CombatService = require(script.Parent.CombatService)
 local CurrencyService = require(script.Parent.CurrencyService)
 local DataService = require(script.Parent.DataService)
 local EnemyService = require(script.Parent.EnemyService)
+local PetService = require(script.Parent.PetService)
 local StatService = require(script.Parent.StatService)
 
 local DropService = {}
@@ -38,9 +39,10 @@ local function randomFor(player: Player): Random
 	return random
 end
 
--- Pets arrive with PetService; until then a pet drop is only logged.
 local function grantPet(player: Player, petId: string)
-	print(`[DropService] {player.Name} dropped pet {petId} (granted once PetService exists)`)
+	if PetService.addPet(player, petId, "Drop") == nil then
+		Remotes.fire("Notify", player, "Your pet storage is full, so a pet drop was lost.")
+	end
 end
 
 -- Stores a sword in the profile's weapon list. Equipping and stats come

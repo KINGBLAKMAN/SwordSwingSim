@@ -8,6 +8,7 @@ export type SettingDef = { key: string, label: string, default: boolean }
 local Settings = {
 	LIST = {
 		{ key = "skipHatchAnimation", label = "Skip hatch animation", default = false },
+		{ key = "hideOtherPets", label = "Hide other players' pets", default = false },
 	} :: { SettingDef },
 }
 

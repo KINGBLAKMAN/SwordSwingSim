@@ -1,0 +1,16 @@
+[package]
+name = "kingblakman/swordswingsim"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+# Shared packages replicate to clients (ReplicatedStorage.Packages).
+[dependencies]
+React = "jsdotlua/react@17.2.1"
+ReactRoblox = "jsdotlua/react-roblox@17.2.1"
+Signal = "sleitnick/signal@2.0.3"
+Trove = "sleitnick/trove@1.8.0"
+
+# Server packages never reach the client (ServerScriptService.ServerPackages).
+[server-dependencies]
+ProfileStore = "lm-loleris/profilestore@1.0.3"

@@ -94,7 +94,9 @@ schemaVersion migrations, Reconcile, a safe path when data fails to load
 client.
 ```
 
-### Compliance and odds
+### Compliance and odds — done (Oct 7, 2026)
+
+Already done: ComplianceService (PolicyService lookup, restricted until known), the shared OddsCalculator used for both shown odds and the server roll, PaidRandomRules, egg/pet/luck config for islands 1–2, and Lune tests for 100% sums and restricted players. Keep this prompt for reference.
 ```
 Build ComplianceService and the shared OddsCalculator per TDD B11. The same
 OddsCalculator must produce both the odds shown in UI and the server roll.

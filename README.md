@@ -34,7 +34,7 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 | --- | --- | --- |
 | `src/server` | ServerScriptService.Server | Entry script, `Services/` (TDD B2) and `Net/Remotes`. Owns RNG, damage and currencies. |
 | `src/client` | StarterPlayerScripts.Client | Entry script, `Controllers/`, `UI/` (React-lua screens) and `Net/Remotes`. Renders and sends intent. |
-| `src/shared` | ReplicatedStorage.Shared | `Bootstrap`, `Config/` (tuning tables, remote rate limits, asset registry), `Data/` (profile type and delta replication), `Net/` (remote schemas, validation, rate limiter), `Util/` (BigNum, Format, WeightedRandom). |
+| `src/shared` | ReplicatedStorage.Shared | `Bootstrap`, `Config/` (tuning tables, pets, eggs, luck, remote rate limits, asset registry), `Data/` (profile type and delta replication), `Net/` (remote schemas, validation, rate limiter), `Util/` (BigNum, Format, WeightedRandom, OddsCalculator, PaidRandomRules). |
 | `Packages/` | ReplicatedStorage.Packages | Wally shared packages: React, ReactRoblox, Signal, Trove. |
 | `ServerPackages/` | ServerScriptService.ServerPackages | Wally server packages: ProfileStore. |
 

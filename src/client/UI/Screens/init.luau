@@ -5,6 +5,7 @@
 
 local EggOddsScreen = require(script.EggOddsScreen)
 local GalleryScreen = require(script.GalleryScreen)
+local IslandsScreen = require(script.IslandsScreen)
 local PetsScreen = require(script.PetsScreen)
 local PlaceholderScreen = require(script.PlaceholderScreen)
 local QuestsScreen = require(script.QuestsScreen)
@@ -14,6 +15,7 @@ local Screens: { [string]: () -> any } = {
 	Pets = PetsScreen,
 	Weapons = PlaceholderScreen.make("Swords"),
 	Quests = QuestsScreen,
+	Islands = IslandsScreen,
 	Store = PlaceholderScreen.make("Store"),
 	Settings = SettingsScreen,
 	-- Opened by an egg's Details button, not from the menu.

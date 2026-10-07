@@ -7,6 +7,8 @@ export type TokenDef = { id: string, name: string, island: string }
 local list: { TokenDef } = {
 	{ id = "scroll_token", name = "Scroll Token", island = "NinjaVillage" },
 	{ id = "mask_token", name = "Mask Token", island = "NinjaVillage" },
+	{ id = "talisman_token", name = "Talisman Token", island = "CursedCity" },
+	{ id = "curse_shard", name = "Curse Shard", island = "CursedCity" },
 }
 
 -- Tokens by id.

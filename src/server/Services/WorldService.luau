@@ -11,6 +11,7 @@ local Workspace = game:GetService("Workspace")
 
 local Islands = require(ReplicatedStorage.Shared.Config.Islands)
 local SpawnLayout = require(ReplicatedStorage.Shared.Util.SpawnLayout)
+local Travel = require(ReplicatedStorage.Shared.Config.Travel)
 local World = require(ReplicatedStorage.Shared.Config.World)
 
 local WorldService = {}
@@ -55,6 +56,25 @@ local function makeEggStand(eggId: string, groundPosition: Vector3): Part
 	return egg
 end
 
+-- A glowing pad with the travel prompt. The client opens the Islands
+-- screen when the prompt fires; the server does nothing until the player
+-- picks an island there.
+local function makeGate(groundPosition: Vector3): Part
+	local gate =
+		makePart("Gate", World.GATE_SIZE, groundPosition + Vector3.new(0, World.GATE_SIZE.Y / 2, 0))
+	gate.Color = World.GATE_COLOR
+	gate.Material = Enum.Material.Neon
+
+	local prompt = Instance.new("ProximityPrompt")
+	prompt.Name = "TravelPrompt"
+	prompt.ActionText = Travel.PROMPT_ACTION
+	prompt.ObjectText = Travel.PROMPT_OBJECT
+	prompt.MaxActivationDistance = Travel.PROMPT_DISTANCE
+	prompt.RequiresLineOfSight = false
+	prompt.Parent = gate
+	return gate
+end
+
 local function buildPlaceholder(islandId: string, layout: World.IslandLayout): Model
 	local model = Instance.new("Model")
 	model.Name = islandId
@@ -81,6 +101,7 @@ local function buildPlaceholder(islandId: string, layout: World.IslandLayout): M
 	if island then
 		makeEggStand(island.egg, layout.origin + layout.egg).Parent = model
 	end
+	makeGate(layout.origin + layout.gate).Parent = model
 
 	local spawns = Instance.new("Folder")
 	spawns.Name = "EnemySpawns"

@@ -6,7 +6,8 @@
 -- A real map replaces it by having the same shape: a model named after the
 -- island id with a SpawnLocation named Spawn and an EnemySpawns folder of
 -- parts, each with an Enemy attribute naming the enemy id that stands there,
--- and a part named EggStand with an Egg attribute naming the island's egg.
+-- a part named EggStand with an Egg attribute naming the island's egg, and
+-- a part named Gate holding a ProximityPrompt (see Config/Travel).
 
 export type Zone = {
 	enemy: string,
@@ -26,10 +27,16 @@ export type IslandLayout = {
 	spawn: Vector3,
 	-- Where the island's egg stands, relative to the origin.
 	egg: Vector3,
+	-- The travel gate: a pad with a prompt that opens the Islands screen.
+	gate: Vector3,
 	zones: { Zone },
 }
 
 local World = {
+	-- The travel gate pad on each island.
+	GATE_SIZE = Vector3.new(10, 1, 10),
+	GATE_COLOR = Color3.fromRGB(120, 200, 255),
+
 	ISLANDS = {
 		-- The ground's top sits a little above y = 0 so it doesn't flicker
 		-- against a default Baseplate.
@@ -39,6 +46,7 @@ local World = {
 			groundColor = Color3.fromRGB(110, 150, 90),
 			spawn = Vector3.new(0, 0, 100),
 			egg = Vector3.new(30, 0, 95),
+			gate = Vector3.new(-30, 0, 95),
 			zones = {
 				{ enemy = "kohai", center = Vector3.new(0, 0, 45), radius = 22, count = 10 },
 				{
@@ -48,6 +56,21 @@ local World = {
 					count = 6,
 				},
 				{ enemy = "karasu_ren", center = Vector3.new(55, 0, -70), radius = 0, count = 1 },
+			},
+		},
+		-- Far enough from island 1 that the gap can't be walked or jumped:
+		-- the gate's teleport is the only way over.
+		CursedCity = {
+			origin = Vector3.new(520, 0.2, 0),
+			groundSize = Vector3.new(260, 2, 260),
+			groundColor = Color3.fromRGB(80, 70, 100),
+			spawn = Vector3.new(0, 0, 100),
+			egg = Vector3.new(30, 0, 95),
+			gate = Vector3.new(-30, 0, 95),
+			zones = {
+				{ enemy = "haiiro_wisp", center = Vector3.new(0, 0, 45), radius = 22, count = 10 },
+				{ enemy = "kazan", center = Vector3.new(-60, 0, -30), radius = 18, count = 6 },
+				{ enemy = "henko", center = Vector3.new(55, 0, -70), radius = 0, count = 1 },
 			},
 		},
 	} :: { [string]: IslandLayout },

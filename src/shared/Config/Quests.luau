@@ -47,6 +47,32 @@ local list: { QuestDef } = {
 		count = 1,
 		rewardCoins = 250,
 	},
+	-- Island 2: the same loop with its own enemies and egg. Rewards are
+	-- island 1's × 25, the same step as its enemies' Coins and egg cost.
+	{
+		id = "cc_haiiro_wisp",
+		island = "CursedCity",
+		kind = "kill",
+		target = "haiiro_wisp",
+		count = 25,
+		rewardCoins = 1250,
+	},
+	{
+		id = "cc_open_eggs",
+		island = "CursedCity",
+		kind = "open",
+		target = "cursed_city_egg",
+		count = 3,
+		rewardCoins = 1875,
+	},
+	{
+		id = "cc_henko",
+		island = "CursedCity",
+		kind = "kill",
+		target = "henko",
+		count = 1,
+		rewardCoins = 6250,
+	},
 }
 
 local Quests = {

@@ -19,6 +19,7 @@ local specs = {
 	PaidRandomRules = require("./PaidRandomRules.spec"),
 	PetMath = require("./PetMath.spec"),
 	ProfileDelta = require("./ProfileDelta.spec"),
+	Quests = require("./Quests.spec"),
 	RateLimiter = require("./RateLimiter.spec"),
 	ScaleMath = require("./ScaleMath.spec"),
 	StatMath = require("./StatMath.spec"),

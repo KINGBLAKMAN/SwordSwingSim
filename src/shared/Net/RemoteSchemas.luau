@@ -25,6 +25,7 @@ local Clicking = require(script.Parent.Parent.Config.Clicking)
 local Eggs = require(script.Parent.Parent.Config.Eggs)
 local Hatching = require(script.Parent.Parent.Config.Hatching)
 local PetRules = require(script.Parent.Parent.Config.PetRules)
+local Quests = require(script.Parent.Parent.Config.Quests)
 local Settings = require(script.Parent.Parent.Config.Settings)
 
 -- Keys in profile.autos a player may switch on or off.
@@ -32,6 +33,11 @@ local AUTO_KEYS = { Clicking.AUTO_KEY }
 
 -- Pet uids are GUIDs without braces: 36 characters.
 local petUid = Validate.string({ maxLength = 36 })
+
+local questIds = {}
+for questId in Quests.BY_ID do
+	table.insert(questIds, questId)
+end
 
 local eggIds = {}
 for eggId in Eggs do
@@ -130,6 +136,13 @@ local RemoteSchemas: { [string]: Schema } = {
 
 	-- Client changes one of its on/off settings (Config/Settings).
 	-- args: (key: string, value: boolean)
+	-- Client asks for a completed quest's reward. The server checks the
+	-- quest is active and complete.
+	ClaimQuest = {
+		direction = "ToServer",
+		args = { Validate.oneOf(questIds) },
+	},
+
 	UpdateSetting = {
 		direction = "ToServer",
 		args = { Validate.oneOf(Settings.keys()), Validate.boolean() },

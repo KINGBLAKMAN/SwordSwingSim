@@ -202,6 +202,17 @@ UI.HUD = {
 	CLICK_PRESS_SECONDS = 0.06,
 }
 
+-- The active quest under the menu, on the left (GDD A13).
+UI.QUEST_TRACKER = {
+	WIDTH = 200,
+	TITLE_HEIGHT = 20,
+	BAR_HEIGHT = 22,
+}
+
+UI.QUESTS_SCREEN = {
+	ROW_HEIGHT = 56,
+}
+
 UI.PETS_SCREEN = {
 	-- Share of the panel's width the detail column on the right takes.
 	DETAIL_WIDTH = 0.36,

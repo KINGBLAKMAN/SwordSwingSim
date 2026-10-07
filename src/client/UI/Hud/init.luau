@@ -3,7 +3,7 @@
 -- phone held sideways:
 --
 --   currencies (top-left)   level bar + boosts (top-center)
---   menu grid under them                               Click! (right)
+--   menu grid under them                     Click! + Auto toggle (right)
 --
 -- The bottom corners stay clear for Roblox's thumbstick and jump button.
 
@@ -11,6 +11,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local React = require(ReplicatedStorage.Packages.React)
 local UI = require(ReplicatedStorage.Shared.Config.UI)
+local AutoClickToggle = require(script.AutoClickToggle)
 local BoostChips = require(script.BoostChips)
 local ClickButton = require(script.ClickButton)
 local CurrencyBar = require(script.CurrencyBar)
@@ -60,9 +61,20 @@ local function Hud()
 			Level = e(LevelBar, { layoutOrder = 1 }),
 			Boosts = e(BoostChips, { layoutOrder = 2 }),
 		}),
-		Click = e(ClickButton, {
-			position = UDim2.fromScale(1, UI.HUD.CLICK_BUTTON_Y),
-			anchorPoint = Vector2.new(1, 0.5),
+		Right = e("Frame", {
+			Position = UDim2.fromScale(1, UI.HUD.CLICK_BUTTON_Y),
+			AnchorPoint = Vector2.new(1, 0.5),
+			AutomaticSize = Enum.AutomaticSize.XY,
+			BackgroundTransparency = 1,
+		}, {
+			List = e("UIListLayout", {
+				FillDirection = Enum.FillDirection.Vertical,
+				HorizontalAlignment = Enum.HorizontalAlignment.Center,
+				Padding = UDim.new(0, UI.GAP),
+				SortOrder = Enum.SortOrder.LayoutOrder,
+			}),
+			Click = e(ClickButton, { layoutOrder = 1 }),
+			Auto = e(AutoClickToggle, { layoutOrder = 2 }),
 		}),
 	})
 end

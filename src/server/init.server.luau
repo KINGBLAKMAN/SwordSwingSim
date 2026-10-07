@@ -12,6 +12,8 @@ local services: { Bootstrap.Entry } = {
 	{ name = "Remotes", module = require(script.Net.Remotes) },
 	{ name = "DataService", module = require(script.Services.DataService) },
 	{ name = "ComplianceService", module = require(script.Services.ComplianceService) },
+	{ name = "StatService", module = require(script.Services.StatService) },
+	{ name = "ClickService", module = require(script.Services.ClickService) },
 }
 
 Bootstrap.run("Server", services)

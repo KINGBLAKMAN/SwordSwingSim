@@ -75,6 +75,8 @@ UI.HUD = {
 	-- (which Roblox puts in the bottom-right corner).
 	CLICK_BUTTON_SIZE = 120,
 	CLICK_BUTTON_Y = 0.45,
+	-- The Auto toggle under the Click! button.
+	AUTO_BUTTON_SIZE = Vector2.new(110, 44),
 	-- How much the Click! button shrinks on a tap, and for how long.
 	CLICK_PRESS_SCALE = 0.9,
 	CLICK_PRESS_SECONDS = 0.06,

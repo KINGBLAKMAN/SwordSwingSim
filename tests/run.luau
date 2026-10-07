@@ -7,6 +7,7 @@ local process = require("@lune/process")
 
 local specs = {
 	BigNum = require("./BigNum.spec"),
+	Clicking = require("./Clicking.spec"),
 	Config = require("./Config.spec"),
 	Format = require("./Format.spec"),
 	LevelCurve = require("./LevelCurve.spec"),
@@ -16,6 +17,8 @@ local specs = {
 	ProfileDelta = require("./ProfileDelta.spec"),
 	RateLimiter = require("./RateLimiter.spec"),
 	ScaleMath = require("./ScaleMath.spec"),
+	StatMath = require("./StatMath.spec"),
+	TickScheduler = require("./TickScheduler.spec"),
 	Validate = require("./Validate.spec"),
 	WeightedRandom = require("./WeightedRandom.spec"),
 }

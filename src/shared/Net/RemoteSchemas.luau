@@ -1,0 +1,40 @@
+--!strict
+-- Every remote in the game, defined in one place (TDD B6).
+--
+-- ToServer remotes carry intent from the client ("I clicked", "open this
+-- egg") and list a Check for each argument. The server runs those checks
+-- and the rate limit from Config/RemoteLimits before any handler sees the
+-- call. Never add an argument that carries an amount, price, damage or
+-- outcome: the server works those out itself.
+--
+-- ToClient remotes carry results from the server. Their arguments come from
+-- our own code, so they aren't checked; `args` documents them instead.
+--
+-- Add a remote here when the system that uses it is built.
+
+local Validate = require(script.Parent.Validate)
+
+export type Direction = "ToServer" | "ToClient"
+
+export type Schema = {
+	direction: Direction,
+	args: { Validate.Check },
+}
+
+local RemoteSchemas: { [string]: Schema } = {
+	-- Client asks to click once. No arguments: the server decides what a
+	-- click is worth.
+	Click = {
+		direction = "ToServer",
+		args = {},
+	},
+
+	-- Server shows the player a short message.
+	-- args: (message: string)
+	Notify = {
+		direction = "ToClient",
+		args = {},
+	},
+}
+
+return table.freeze(RemoteSchemas)

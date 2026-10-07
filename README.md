@@ -24,7 +24,7 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 ## Setup
 
 1. Install Git LFS once per computer, before cloning art: `git lfs install`.
-2. Install [Rokit](https://github.com/rojo-rbx/rokit), then run `rokit install` in the repo. That installs the pinned Rojo, Wally, Selene, StyLua and luau-lsp from `rokit.toml`.
+2. Install [Rokit](https://github.com/rojo-rbx/rokit), then run `rokit install` in the repo. That installs the pinned Rojo, Wally, Selene, StyLua, Lune and luau-lsp from `rokit.toml`.
 3. Run `wally install` to download packages into `Packages/` and `ServerPackages/`.
 4. Run `rojo serve`, open Studio, and connect with the Rojo plugin.
 
@@ -32,11 +32,17 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 
 | Folder | Lands in Studio as | Holds |
 | --- | --- | --- |
-| `src/server` | ServerScriptService.Server | Entry script and `Services/` (TDD B2). Owns RNG, damage and currencies. |
-| `src/client` | StarterPlayerScripts.Client | Entry script, `Controllers/` and `UI/` (React-lua screens). Renders and sends intent. |
-| `src/shared` | ReplicatedStorage.Shared | `Bootstrap`, `Config/` (generated tuning tables and the asset registry), `Util/`. |
+| `src/server` | ServerScriptService.Server | Entry script, `Services/` (TDD B2) and `Net/Remotes`. Owns RNG, damage and currencies. |
+| `src/client` | StarterPlayerScripts.Client | Entry script, `Controllers/`, `UI/` (React-lua screens) and `Net/Remotes`. Renders and sends intent. |
+| `src/shared` | ReplicatedStorage.Shared | `Bootstrap`, `Config/` (tuning tables, remote rate limits, asset registry), `Net/` (remote schemas, validation, rate limiter), `Util/`. |
 | `Packages/` | ReplicatedStorage.Packages | Wally shared packages: React, ReactRoblox, Signal, Trove. |
 | `ServerPackages/` | ServerScriptService.ServerPackages | Wally server packages: ProfileStore. |
+
+### Adding a remote
+
+1. Add its schema to `src/shared/Net/RemoteSchemas.luau`, with a `Validate` check for every argument. Only send intent, never amounts, prices or outcomes.
+2. For a `ToServer` remote, add its rate limit to `src/shared/Config/RemoteLimits.luau`. The server won't start without one.
+3. On the server, call `Remotes.on("Name", handler)` in the service's `start()`. The handler only runs for calls that passed the rate limit and the argument checks. On the client, call `Remotes.fire("Name", ...)`.
 
 New services and controllers are added by hand to the list in their entry script, so startup order is explicit and fully typed.
 
@@ -44,9 +50,10 @@ New services and controllers are added by hand to the list in their entry script
 
 Run these before pushing; CI runs the same ones.
 
-- Format: `stylua src` (CI uses `stylua --check src`)
+- Format: `stylua src tests` (CI uses `stylua --check src tests`)
 - Lint: `selene src`
 - Type check: `rojo sourcemap default.project.json -o sourcemap.json`, then `luau-lsp analyze --sourcemap=sourcemap.json --ignore="Packages/**" --ignore="ServerPackages/**" src`
+- Unit tests: `lune run tests/run.luau` (pure-logic modules only; anything that needs Roblox APIs is tested in Studio)
 - Build: `rojo build default.project.json -o SwordSwingSim.rbxl`
 
 ## CI and publishing

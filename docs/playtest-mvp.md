@@ -14,7 +14,7 @@ tells us whether the tuning sheet's pacing is right.
 2. Turn on **Game Settings → Security → Enable Studio Access to API
    Services**. Without it ProfileStore can't save, and the rejoin test means
    nothing.
-3. Publish the place once if you haven't. The x2 Coins pass and the Energy
+3. Publish the place once if you haven't. The 2x Coins pass and the Energy
    Pack only work in a published place.
 4. Use a fresh profile. Temporarily change `STORE_NAME` in `Config/Data`
    (for example to `"PlayerData_test1"`), or test on an alt account, so you
@@ -36,9 +36,9 @@ tells us whether the tuning sheet's pacing is right.
 | 9 | Keep going until you've opened about 20 eggs. | **⏱ time at 20 eggs.** Pass: under about 15 minutes. |
 | 10 | Get 1,200 Coins, use the blue gate and tap **Unlock**. | You land on Cursed-spirit city and its first quest starts. **⏱ time to island 2.** |
 | 11 | On island 2, kill a few Haiiro Wisp and open one 625-Coin egg if you can. | Talisman Token and Curse Shard drops appear, and so do island 2 pets. |
-| 12 | Open **Store** and buy x2 Coins (needs step 7's IDs merged) (Studio test purchases are free). | It shows "Owned" and kills now give twice the Coins. |
+| 12 | Open **Store** and buy 2x Coins (Studio test purchases are free). | It shows "Owned" and kills now give twice the Coins. |
 | 13 | Buy the Energy Pack. | +2,500 Energy, exactly once. |
-| 14 | Stop, then Play again. | Same island, Coins, Energy, pets, equipped pets, locks, quest progress and x2 Coins. Nothing reset. |
+| 14 | Stop, then Play again. | Same island, Coins, Energy, pets, equipped pets, locks, quest progress and 2x Coins. Nothing reset. |
 
 If 20 eggs or island 2 takes far longer than 15 minutes, don't change any
 code. Note the ⏱ times and Coins and we'll tune `docs/Anime_Sword_Sim_Tuning.xlsx`.

@@ -1,5 +1,5 @@
 # CI pipeline from TDD B14.
-#   Every push and PR: format check, lint, type check, rojo build.
+#   Every push and PR: format check, lint, type check, unit tests, rojo build.
 #   Push to main: also publish the build to the Test place.
 #   Tag like v1.2.0: publish the build to the Prod place.
 # The publish steps skip themselves until the Open Cloud secrets and place
@@ -26,7 +26,7 @@ jobs:
         run: wally install
 
       - name: Check formatting
-        run: stylua --check src
+        run: stylua --check src tests
 
       - name: Lint
         run: selene src
@@ -43,7 +43,8 @@ jobs:
             --ignore="ServerPackages/**" \
             src
 
-      # Unit tests join here once the first tested module (BigNum) lands.
+      - name: Unit tests (pure logic, run with Lune)
+        run: lune run tests/run.luau
 
       - name: Build place
         run: rojo build default.project.json --output SwordSwingSim.rbxl

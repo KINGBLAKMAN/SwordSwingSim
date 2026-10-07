@@ -66,7 +66,9 @@ Help me connect Roblox Studio's built-in MCP server to Claude Code, then
 verify it by listing the children of Workspace in my open place.
 ```
 
-### Bootstrap and remotes
+### Bootstrap and remotes — done (Oct 7, 2026)
+
+Already done: Init/Start bootstrap, Remotes with schemas, validation and per-remote rate limits, and Lune tests for the rate limiter. Keep this prompt for reference.
 ```
 Build the server and client bootstrap (Init all services, then Start all)
 and the Remotes module from TDD B6: typed schemas, per-remote rate limits,

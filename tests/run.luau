@@ -11,6 +11,7 @@ local specs = {
 	Combat = require("./Combat.spec"),
 	Config = require("./Config.spec"),
 	Drops = require("./Drops.spec"),
+	Egg = require("./Egg.spec"),
 	Format = require("./Format.spec"),
 	LevelCurve = require("./LevelCurve.spec"),
 	Migrations = require("./Migrations.spec"),

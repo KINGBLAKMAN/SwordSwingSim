@@ -124,6 +124,48 @@ UI.ENEMY_INFO = {
 	TOP_OFFSET = 72,
 }
 
+-- The odds board floating over each egg (GDD A6).
+UI.EGG_BILLBOARD = {
+	SIZE = Vector2.new(230, 236),
+	-- Studs above the egg stand's middle.
+	HEIGHT_ABOVE = 7,
+	MAX_DISTANCE = 70,
+	ROW_HEIGHT = 18,
+}
+
+-- The hatch animation (GDD A6): the egg shakes, harder for rarer pets,
+-- then cracks and shows the pet.
+UI.HATCH = {
+	EGG_SIZE = Vector2.new(160, 200),
+	EGG_COLOR = Color3.fromRGB(245, 235, 210),
+	SHAKE_SECONDS = 1.6,
+	-- Seconds per side-to-side swing while shaking.
+	SHAKE_SWING_SECONDS = 0.08,
+	-- Degrees the egg tilts each way, by the rarest pet in the hatch.
+	SHAKE_DEGREES = {
+		Common = 6,
+		Uncommon = 8,
+		Rare = 11,
+		Epic = 15,
+		Legendary = 20,
+		Mythical = 26,
+		Secret = 32,
+	} :: { [string]: number },
+	CRACK_SECONDS = 0.35,
+	REVEAL_SECONDS = 1.4,
+	-- The results grid closes itself after this long if not tapped.
+	RESULTS_SECONDS = 6,
+}
+
+-- Short server messages ("Not enough Coins.") near the top of the screen.
+UI.NOTICES = {
+	SECONDS = 3,
+	SIZE = Vector2.new(420, 32),
+	-- Share of the screen height from the top.
+	Y = 0.2,
+	COLOR = Color3.fromRGB(255, 120, 120),
+}
+
 UI.FONT = Enum.Font.FredokaOne
 UI.TEXT_SIZE = {
 	small = 14,

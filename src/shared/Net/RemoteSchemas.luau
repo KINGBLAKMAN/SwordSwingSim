@@ -22,9 +22,17 @@ export type Schema = {
 }
 
 local Clicking = require(script.Parent.Parent.Config.Clicking)
+local Eggs = require(script.Parent.Parent.Config.Eggs)
+local Hatching = require(script.Parent.Parent.Config.Hatching)
+local Settings = require(script.Parent.Parent.Config.Settings)
 
 -- Keys in profile.autos a player may switch on or off.
 local AUTO_KEYS = { Clicking.AUTO_KEY }
+
+local eggIds = {}
+for eggId in Eggs do
+	table.insert(eggIds, eggId)
+end
 
 local RemoteSchemas: { [string]: Schema } = {
 	-- Client asks to click once. No arguments: the server decides what a
@@ -62,6 +70,33 @@ local RemoteSchemas: { [string]: Schema } = {
 	DropFx = {
 		direction = "ToClient",
 		args = {},
+	},
+
+	-- Client asks to open an egg `count` times (1 if left out). The server
+	-- checks island, distance, policy, storage and cost, and rolls.
+	-- args: (eggId: string, count: number?)
+	OpenEgg = {
+		direction = "ToServer",
+		args = {
+			Validate.oneOf(eggIds),
+			Validate.optional(
+				Validate.number({ min = 1, max = Hatching.MAX_OPEN_COUNT, integer = true })
+			),
+		},
+	},
+
+	-- Server tells the player what their eggs hatched.
+	-- args: (eggId: string, hatched: { EggService.HatchedPet })
+	HatchResult = {
+		direction = "ToClient",
+		args = {},
+	},
+
+	-- Client changes one of its on/off settings (Config/Settings).
+	-- args: (key: string, value: boolean)
+	UpdateSetting = {
+		direction = "ToServer",
+		args = { Validate.oneOf(Settings.keys()), Validate.boolean() },
 	},
 
 	-- Server sends changes to the player's own profile, batched a few times

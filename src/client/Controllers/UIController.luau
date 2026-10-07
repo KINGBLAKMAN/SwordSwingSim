@@ -9,6 +9,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local React = require(ReplicatedStorage.Packages.React)
 local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 local App = require(script.Parent.Parent.UI.App)
+local EggBillboards = require(script.Parent.Parent.UI.EggBillboards)
 
 local UIController = {}
 
@@ -17,8 +18,12 @@ function UIController.start()
 
 	-- React needs a container to own; the portal puts the ScreenGui it
 	-- renders into PlayerGui, where Roblox draws it. The key names it.
+	-- Egg boards are BillboardGuis, which only take taps from PlayerGui.
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
-	root:render(ReactRoblox.createPortal({ App = React.createElement(App) }, playerGui))
+	root:render(ReactRoblox.createPortal({
+		App = React.createElement(App),
+		EggBoards = React.createElement(EggBillboards),
+	}, playerGui))
 end
 
 return UIController

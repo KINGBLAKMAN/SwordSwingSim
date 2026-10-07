@@ -1,0 +1,9 @@
+std = "roblox"
+
+# Packages are third-party code; only our own src/ is linted.
+exclude = ["Packages/**", "ServerPackages/**", "DevPackages/**"]
+
+[lints]
+global_usage = "deny"
+unused_variable = "warn"
+shadowing = "warn"

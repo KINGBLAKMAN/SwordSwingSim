@@ -49,7 +49,9 @@ explain the simple workflow I should follow: a branch per system, commit
 after each working step, merge when it's tested in Studio.
 ```
 
-### Scaffold the repo
+### Scaffold the repo — done (Oct 7, 2026)
+
+Already done: Rokit, Wally, Selene, StyLua, strict Luau, the bootstrap and CI are in the repo. Keep this prompt for reference.
 ```
 Use roblox-dev:setup to scaffold the project in [folder]. Use the folder
 layout from TDD B1. Wally packages: ProfileStore, jsdotlua/react,

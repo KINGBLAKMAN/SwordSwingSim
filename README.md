@@ -23,4 +23,35 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 
 ## Setup
 
-Git LFS must be installed before cloning art: `git lfs install`.
+1. Install Git LFS once per computer, before cloning art: `git lfs install`.
+2. Install [Rokit](https://github.com/rojo-rbx/rokit), then run `rokit install` in the repo. That installs the pinned Rojo, Wally, Selene, StyLua and luau-lsp from `rokit.toml`.
+3. Run `wally install` to download packages into `Packages/` and `ServerPackages/`.
+4. Run `rojo serve`, open Studio, and connect with the Rojo plugin.
+
+## Layout
+
+| Folder | Lands in Studio as | Holds |
+| --- | --- | --- |
+| `src/server` | ServerScriptService.Server | Entry script and `Services/` (TDD B2). Owns RNG, damage and currencies. |
+| `src/client` | StarterPlayerScripts.Client | Entry script, `Controllers/` and `UI/` (React-lua screens). Renders and sends intent. |
+| `src/shared` | ReplicatedStorage.Shared | `Bootstrap`, `Config/` (generated tuning tables and the asset registry), `Util/`. |
+| `Packages/` | ReplicatedStorage.Packages | Wally shared packages: React, ReactRoblox, Signal, Trove. |
+| `ServerPackages/` | ServerScriptService.ServerPackages | Wally server packages: ProfileStore. |
+
+New services and controllers are added by hand to the list in their entry script, so startup order is explicit and fully typed.
+
+## Checks
+
+Run these before pushing; CI runs the same ones.
+
+- Format: `stylua src` (CI uses `stylua --check src`)
+- Lint: `selene src`
+- Type check: `rojo sourcemap default.project.json -o sourcemap.json`, then `luau-lsp analyze --sourcemap=sourcemap.json --ignore="Packages/**" --ignore="ServerPackages/**" src`
+- Build: `rojo build default.project.json -o SwordSwingSim.rbxl`
+
+## CI and publishing
+
+`.github/workflows/ci.yml` runs the checks and a Rojo build on every push and PR. Pushes to `main` publish to the Test place, and tags like `v1.2.0` publish to Prod. Publishing stays off until you add these in GitHub under Settings > Secrets and variables > Actions:
+
+- Secret `ROBLOX_API_KEY`: an Open Cloud API key with Place Publishing write access for both universes.
+- Variables `TEST_UNIVERSE_ID`, `TEST_PLACE_ID`, `PROD_UNIVERSE_ID`, `PROD_PLACE_ID`.

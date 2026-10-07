@@ -38,4 +38,15 @@ rojo build default.project.json -o SwordSwingSim.rbxl
 
 ## Workflow
 
-One branch and PR per system (`feature/<system>`). Commit after each working step; merge once it's tested in Studio. Don't edit scripts inside Studio: Rojo syncs files into Studio, not back.
+One branch and PR per system (`feature/<system>`). Commit after each working step. Don't edit scripts inside Studio: Rojo syncs files into Studio, not back.
+
+### Auto-merge
+
+Claude may merge its own PRs without asking, when all of these hold:
+
+- Claude opened the PR (never merge someone else's PR).
+- CI is green on the latest commit and there is no merge conflict.
+- No review thread is left unanswered and no change was requested.
+- The "Pull now" message for the PR has been posted in its thread.
+
+Merge with squash and delete the branch afterwards, then say in the thread that it merged. Never merge red or pending CI, and never bypass branch protection. If Jonah says to hold a PR, leave it for him to merge.

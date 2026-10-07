@@ -130,7 +130,7 @@ for names. Re-running it after I change the sheet should update everything.
 
 Run these in order.
 
-1. **Click and Energy**
+1. **Click and Energy** — done (Oct 7, 2026)
    ```
    Build ClickService and server-side auto-click per GDD A10 and TDD B6–B7.
    ```

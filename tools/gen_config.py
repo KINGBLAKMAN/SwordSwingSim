@@ -9,7 +9,7 @@ Reads:
                                     island's egg and an enemy on that island
 
 Writes these modules in src/shared/Config (each says it is generated):
-  Islands, Enemies, Eggs, Pets, Rebirth, Levels, Traits
+  Islands, Enemies, Eggs, Pets, Rebirth, Levels, Traits, Combat
 
 Usage (from the repo root):
   python tools/gen_config.py               regenerate the config modules
@@ -53,6 +53,17 @@ PITY_MIN_RARITY = "Legendary"
 # The Rebirth tab's formula gives the kicker once per 10 rebirths
 # (REBIRTH_KICKER^INT(r/10)). check_rebirth() stops if that changes.
 REBIRTH_KICKER_EVERY = 10
+
+# Inputs-tab levers that go into Config/Combat, by their name there. The
+# sheet uses short names; the game spells them out.
+COMBAT_LEVERS = {
+    "BASE_ENERGY_PER_CLICK": "BASE_EPC",
+    "START_ENERGY": "START_ENERGY",
+    "DAMAGE_PER_ENERGY": "DPE",
+    "SWING_RATE": "SWING_RATE",
+    "CRIT_CHANCE": "CRIT_CHANCE",
+    "CRIT_MULT": "CRIT_MULT",
+}
 
 # Island Coins pay for eggs and unlocks (GDD A5).
 COINS = "coins"
@@ -268,6 +279,10 @@ def load_tuning(grids: dict[str, Grid]) -> dict:
         "levels": {
             "LEVEL_EXP_BASE": number_right_of(inputs, "LEVEL_EXP_BASE", "Inputs"),
             "LEVEL_EXP_EXP": number_right_of(inputs, "LEVEL_EXP_EXP", "Inputs"),
+        },
+        # Sheet lever name -> name in Config/Combat.
+        "combat": {
+            name: number_right_of(inputs, lever, "Inputs") for name, lever in COMBAT_LEVERS.items()
         },
         "rebirth": {
             "COST_BASE": number_right_of(inputs, "REBIRTH_COST_BASE", "Inputs"),
@@ -763,6 +778,22 @@ def render_rebirth(rebirth: dict) -> str:
     )
 
 
+def render_combat(combat: dict) -> str:
+    return render_constants(
+        "Combat",
+        [
+            "Clicking and combat levers (GDD A4, A10), from the Inputs tab's",
+            '"Energy" and "Combat" rows.',
+            "",
+            "Energy per click = BASE_ENERGY_PER_CLICK × pet multiplier × rebirth",
+            "multiplier. START_ENERGY is what a new player starts with. Damage per",
+            "hit = Energy × DAMAGE_PER_ENERGY × sword multiplier, times CRIT_MULT on a",
+            "crit (CRIT_CHANCE of hits). A sword lands SWING_RATE hits a second.",
+        ],
+        combat,
+    )
+
+
 def render_traits(traits: dict) -> str:
     order = traits["order"]
     lines = header(
@@ -818,6 +849,7 @@ def build_modules(tuning: dict, roster: list[dict]) -> tuple[dict[str, str], lis
         "Levels.luau": render_levels(tuning["levels"]),
         "Rebirth.luau": render_rebirth(tuning["rebirth"]),
         "Traits.luau": render_traits(tuning["traits"]),
+        "Combat.luau": render_combat(tuning["combat"]),
     }
     return modules, notes
 

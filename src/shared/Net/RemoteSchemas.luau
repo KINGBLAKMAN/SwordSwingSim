@@ -21,12 +21,24 @@ export type Schema = {
 	args: { Validate.Check },
 }
 
+local Clicking = require(script.Parent.Parent.Config.Clicking)
+
+-- Keys in profile.autos a player may switch on or off.
+local AUTO_KEYS = { Clicking.AUTO_KEY }
+
 local RemoteSchemas: { [string]: Schema } = {
 	-- Client asks to click once. No arguments: the server decides what a
 	-- click is worth.
 	Click = {
 		direction = "ToServer",
 		args = {},
+	},
+
+	-- Client switches one of its autos (like auto-click) on or off.
+	-- args: (key: one of AUTO_KEYS, enabled: boolean)
+	SetAuto = {
+		direction = "ToServer",
+		args = { Validate.oneOf(AUTO_KEYS), Validate.boolean() },
 	},
 
 	-- Server sends changes to the player's own profile, batched a few times

@@ -122,7 +122,12 @@ export type Profile = {
 
 	settings: { [string]: any },
 	autos: { [string]: boolean | number },
-	flags: { groupRewardClaimed: boolean, tutorialStep: number },
+	flags: {
+		groupRewardClaimed: boolean,
+		tutorialStep: number,
+		-- True once the player got Combat.START_ENERGY (ClickService).
+		startingEnergyGranted: boolean,
+	},
 
 	-- os.time() when the player last left, for offline rewards (GDD A10).
 	lastOnline: number,

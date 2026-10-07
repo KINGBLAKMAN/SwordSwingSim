@@ -1,0 +1,91 @@
+--!strict
+-- StatService: the one place a player's multipliers are worked out (TDD B2).
+-- Other services ask here and never compute a multiplier themselves, so a
+-- new source (a pet, a rebirth, a pass) only has to be added once.
+--
+-- Results are cached per player. Whatever changes a source (equipping a
+-- pet, rebirthing, buying a pass) calls StatService.invalidate(player) so
+-- the next read works the numbers out again.
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Clicking = require(ReplicatedStorage.Shared.Config.Clicking)
+local StatMath = require(ReplicatedStorage.Shared.Util.StatMath)
+local DataService = require(script.Parent.DataService)
+
+type Stats = {
+	petMultiplier: number,
+	rebirthMultiplier: number,
+	energyPerClick: number,
+}
+
+local StatService = {}
+
+local cache: { [Player]: Stats } = {}
+
+-- Pet multiplier from equipped pets. No pets exist yet, so it's 1 until
+-- PetService is built.
+local function petMultiplierFor(_player: Player): number
+	return StatMath.petMultiplier({})
+end
+
+local function rebirthMultiplierFor(player: Player): number
+	local data = DataService.get(player)
+	local rebirths = if data then data.stats.rebirths else 0
+	return StatMath.rebirthMultiplier(rebirths)
+end
+
+local function compute(player: Player): Stats
+	local petMultiplier = petMultiplierFor(player)
+	local rebirthMultiplier = rebirthMultiplierFor(player)
+	return {
+		petMultiplier = petMultiplier,
+		rebirthMultiplier = rebirthMultiplier,
+		energyPerClick = StatMath.energyPerClick(petMultiplier, rebirthMultiplier),
+	}
+end
+
+local function statsFor(player: Player): Stats
+	local stats = cache[player]
+	if stats == nil then
+		stats = compute(player)
+		-- Only cache once the profile is in, or the cache would keep the
+		-- defaults a not-yet-loaded player gets.
+		if DataService.isLoaded(player) then
+			cache[player] = stats
+		end
+	end
+	return stats
+end
+
+function StatService.start()
+	Players.PlayerRemoving:Connect(StatService.invalidate)
+end
+
+-- Drops the player's cached numbers. Call after changing anything a
+-- multiplier depends on.
+function StatService.invalidate(player: Player)
+	cache[player] = nil
+end
+
+function StatService.petMultiplier(player: Player): number
+	return statsFor(player).petMultiplier
+end
+
+function StatService.rebirthMultiplier(player: Player): number
+	return statsFor(player).rebirthMultiplier
+end
+
+-- Energy one click earns: BASE_ENERGY_PER_CLICK × pet × rebirth multipliers.
+function StatService.energyPerClick(player: Player): number
+	return statsFor(player).energyPerClick
+end
+
+-- Auto-clicks per second. The Auto-Click+ pass raises it once purchases
+-- exist (MonetizationService).
+function StatService.autoClickRate(_player: Player): number
+	return Clicking.AUTO_CLICK_CPS
+end
+
+return StatService

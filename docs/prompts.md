@@ -139,7 +139,7 @@ Run these in order.
    Build EnemyService and CombatService for island 1 per GDD A9 and A12a:
    spawning, pooling, HP bars, damage numbers, shared kill credit.
    ```
-3. **Drops**
+3. **Drops** — done (Oct 7, 2026)
    ```
    Build DropService per GDD A9: rolled and granted drop tables, pet drops at
    12.5–15%, and an enemy info panel showing the full table.

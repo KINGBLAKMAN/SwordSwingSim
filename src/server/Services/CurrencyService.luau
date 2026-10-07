@@ -60,4 +60,15 @@ function CurrencyService.trySpend(
 	return true
 end
 
+-- Adds `count` of an island token (Config/Tokens).
+function CurrencyService.addToken(player: Player, tokenId: string, count: number, _source: string)
+	assert(count >= 0, "CurrencyService.addToken: count can't be negative")
+	if not DataService.isLoaded(player) then
+		return
+	end
+	DataService.update(player, { "currencies", "tokens", tokenId }, function(current)
+		return (current or 0) + count
+	end)
+end
+
 return CurrencyService

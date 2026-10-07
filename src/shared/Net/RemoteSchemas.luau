@@ -56,6 +56,14 @@ local RemoteSchemas: { [string]: Schema } = {
 		args = {},
 	},
 
+	-- Server tells a player what a kill dropped for them, for the toast and
+	-- the rare-drop banner.
+	-- args: (enemyId: string, drops: { DropTables.Drop })
+	DropFx = {
+		direction = "ToClient",
+		args = {},
+	},
+
 	-- Server sends changes to the player's own profile, batched a few times
 	-- a second (TDD B6). The first one after joining is the whole profile.
 	-- args: (changes: { ProfileDelta.Change })

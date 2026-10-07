@@ -6,6 +6,9 @@
 -- clicked an enemy to lock it. A locked target stays until it dies or the
 -- player walks LOCK_BREAK_RANGE away. A ring sits under the target.
 --
+-- Inspecting: the enemy under the mouse (PC) or the tapped, locked target
+-- is the inspected enemy, whose drop table the info panel shows.
+--
 -- Swinging: while the target is in reach, the client asks the server to
 -- hit it SWING_RATE times a second. The server checks reach and rate again
 -- and decides the damage.
@@ -35,6 +38,10 @@ local lastSwingAt = -math.huge
 local ring: Part
 -- (target: Model?) whenever the target changes.
 local targetChanged = Signal.new()
+local hovered: Model? = nil
+local inspected: Model? = nil
+-- (inspected: Model?) whenever the inspected enemy changes.
+local inspectedChanged = Signal.new()
 
 local function rootPart(): BasePart?
 	local character = Players.LocalPlayer.Character
@@ -118,6 +125,17 @@ local function trySwing(root: BasePart)
 	end
 end
 
+local function updateInspected()
+	if hovered and not EnemyController.isAlive(hovered) then
+		hovered = nil
+	end
+	local now = hovered or (if locked then target else nil)
+	if now ~= inspected then
+		inspected = now
+		inspectedChanged:Fire(now)
+	end
+end
+
 local function onHeartbeat()
 	local root = rootPart()
 	if root == nil then
@@ -127,6 +145,7 @@ local function onHeartbeat()
 		trySwing(root)
 	end
 	updateRing()
+	updateInspected()
 end
 
 -- The enemy model under a screen position, if any.
@@ -160,6 +179,12 @@ local function onInputBegan(input: InputObject, gameProcessed: boolean)
 	end
 end
 
+local function onInputChanged(input: InputObject)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		hovered = enemyAt(input.Position)
+	end
+end
+
 function CombatController.start()
 	ring = Instance.new("Part")
 	ring.Name = "TargetRing"
@@ -174,6 +199,7 @@ function CombatController.start()
 	ring.CastShadow = false
 
 	UserInputService.InputBegan:Connect(onInputBegan)
+	UserInputService.InputChanged:Connect(onInputChanged)
 	RunService.Heartbeat:Connect(onHeartbeat)
 end
 
@@ -185,6 +211,15 @@ end
 -- Calls callback(target) whenever the target changes.
 function CombatController.onTargetChanged(callback: (target: Model?) -> ())
 	return targetChanged:Connect(callback)
+end
+
+-- The enemy being hovered or tapped, whose info the panel shows, or nil.
+function CombatController.inspected(): Model?
+	return inspected
+end
+
+function CombatController.onInspectedChanged(callback: (inspected: Model?) -> ())
+	return inspectedChanged:Connect(callback)
 end
 
 return CombatController

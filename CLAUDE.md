@@ -19,7 +19,7 @@ Original anime sword simulator for Roblox. The full plan (GDD part A, TDD part B
 
 New service or controller: a module with optional `init()` and `start()`, added by hand to its entry script's list. Connect remotes in `start()`.
 
-Player data: read with `DataService.get`, write only with `DataService.set` / `update` so the change reaches the client. A new profile field goes in `Shared/Data/ProfileTypes` and `DataService/ProfileTemplate`; a renamed, moved or retyped field also needs a step in `DataService/Migrations`.
+Player data: read with `DataService.get`, write only with `DataService.set` / `update` so the change reaches the client. A new profile field goes in `Shared/Data/ProfileTypes` and `DataService/ProfileTemplate`; a renamed, moved or retyped field, or a new field inside per-item records like pets, also needs a step in `DataService/Migrations`.
 
 New remote: schema in `Shared/Net/RemoteSchemas` (a `Validate` check per argument, intent only), rate limit in `Config/RemoteLimits` for `ToServer` remotes, then `Remotes.on` / `Remotes.fire`.
 

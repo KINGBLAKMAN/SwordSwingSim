@@ -44,6 +44,7 @@ type StoredProfile = {
 	Reconcile: (self: any) -> (),
 	Save: (self: any) -> (),
 	EndSession: (self: any) -> (),
+	OnLastSave: { Connect: (self: any, listener: (reason: string) -> ()) -> any },
 	OnSessionEnd: { Connect: (self: any, listener: () -> ()) -> any },
 }
 type Store = {
@@ -102,11 +103,14 @@ local function startSession(player: Player): StoredProfile?
 	end
 
 	local key = DataConfig.KEY_PREFIX .. player.UserId
+	local startedAt = os.clock()
 	-- ProfileStore's type for these options leaves out Cancel, hence the cast.
 	local options: any = {
-		-- Stop retrying once the player has left.
+		-- Stop retrying once the player has left or the load has taken too
+		-- long. Passing Cancel turns off ProfileStore's own time limit, so
+		-- LOAD_TIMEOUT replaces it.
 		Cancel = function()
-			return not isInGame(player)
+			return not isInGame(player) or os.clock() - startedAt > DataConfig.LOAD_TIMEOUT
 		end,
 	}
 	local ok, result = pcall(function()
@@ -160,10 +164,27 @@ local function loadProfile(player: Player)
 	local session: Session = { profile = profile, batch = ProfileDelta.newBatch() }
 	sessions[player] = session
 
+	-- Every final save runs this first: the player left ("Manual"), the
+	-- server is shutting down ("Shutdown") or another server took the
+	-- profile ("External"). ProfileStore reads Data only after it returns,
+	-- so these writes are saved.
+	profile.OnLastSave:Connect(function(reason)
+		if sessions[player] ~= session then
+			return
+		end
+		-- Last chance for other services to write. Their handlers must not
+		-- yield, because the save goes ahead right after.
+		releasing:Fire(player, profile.Data)
+		DataService.set(player, { "lastOnline" }, os.time())
+		sessions[player] = nil
+		if reason == "External" then
+			kick(player, KICK_MESSAGES.sessionEnded)
+		end
+	end)
+
+	-- Covers a session lost without a final save, e.g. another server
+	-- forced its way in. OnLastSave already cleared the session otherwise.
 	profile.OnSessionEnd:Connect(function()
-		-- Releasing on leave clears sessions[player] first, so this only acts
-		-- when the session ended while the player is still here: another
-		-- server took the profile, or the server is shutting down.
 		if sessions[player] ~= session then
 			return
 		end
@@ -182,17 +203,10 @@ local function releaseProfile(player: Player)
 	loadStarted[player] = nil
 
 	local session = sessions[player]
-	if session == nil then
-		return
+	if session then
+		-- Fires OnLastSave right away, which runs the release hooks.
+		session.profile:EndSession()
 	end
-
-	-- Last chance for other services to write. Their handlers must not
-	-- yield, because the session ends right after.
-	releasing:Fire(player, session.profile.Data)
-	DataService.set(player, { "lastOnline" }, os.time())
-
-	sessions[player] = nil
-	session.profile:EndSession()
 end
 
 -- Sends each player's queued changes in one remote call.
@@ -283,8 +297,9 @@ function DataService.onLoaded(callback: (player: Player, data: Profile) -> ())
 	return loaded:Connect(callback)
 end
 
--- Calls callback(player, data) just before a leaving player's profile is
--- saved for the last time. The callback must not yield.
+-- Calls callback(player, data) just before a profile is saved for the last
+-- time: the player left, the server is shutting down, or another server
+-- took the profile. The callback must not yield.
 function DataService.onReleasing(callback: (player: Player, data: Profile) -> ())
 	return releasing:Connect(callback)
 end

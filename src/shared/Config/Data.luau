@@ -10,6 +10,11 @@ local Data = {
 	-- A profile's DataStore key is KEY_PREFIX followed by the player's UserId.
 	KEY_PREFIX = "Player_",
 
+	-- Seconds to keep retrying a profile load before kicking the player with
+	-- a rejoin message. Keep it above ~60 so a stuck session lock from a
+	-- crashed server can still be taken over (ProfileStore does that at 40 s).
+	LOAD_TIMEOUT = 120,
+
 	-- Seconds between sends of queued profile changes to each client. TDD B6
 	-- batches server-to-client updates at 5–10 Hz.
 	DELTA_SEND_INTERVAL = 0.1,

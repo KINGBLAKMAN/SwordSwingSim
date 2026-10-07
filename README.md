@@ -46,8 +46,8 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 
 ### Changing player data
 
-1. Add the field to `src/shared/Data/ProfileTypes.luau` and give it a starting value in `src/server/Services/DataService/ProfileTemplate.luau`. Reconcile copies it into existing saves.
-2. If you renamed, moved or changed the type of a field, also add a step to `src/server/Services/DataService/Migrations.luau`. Never edit a step that has shipped.
+1. Add the field to `src/shared/Data/ProfileTypes.luau` and give it a starting value in `src/server/Services/DataService/ProfileTemplate.luau`. Reconcile copies it into existing saves, but only on fixed tables like `currencies` or `stats`.
+2. If you renamed, moved or changed the type of a field, or added a field inside per-item records like pets, also add a step to `src/server/Services/DataService/Migrations.luau`. Never edit a step that has shipped.
 3. In code, write with `DataService.set(player, path, value)` or `DataService.update(...)`, never straight into the profile table, so the client gets the change.
 
 New services and controllers are added by hand to the list in their entry script, so startup order is explicit and fully typed.

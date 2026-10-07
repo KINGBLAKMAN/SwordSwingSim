@@ -3,9 +3,12 @@
 -- client gets a read-only copy through ProfileDelta.
 --
 -- Changing the shape:
---   * New field: add it here and in DataService/ProfileTemplate. Reconcile
---     copies the template's value into older saves, so no migration is
---     needed.
+--   * New field on a fixed table (currencies, stats, flags...): add it here
+--     and in DataService/ProfileTemplate. Reconcile copies the template's
+--     value into older saves, so no migration is needed.
+--   * New field inside per-item records (PetInstance, WeaponInstance,
+--     quest or boost entries): the template has no items for Reconcile to
+--     copy from, so also add a migration step that sets it on every item.
 --   * Renamed, moved or retyped field: also add a step to
 --     DataService/Migrations.
 --

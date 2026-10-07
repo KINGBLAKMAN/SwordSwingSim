@@ -5,9 +5,11 @@
 -- into a version-(n + 1) profile, so a save from any older version runs
 -- every step after its version, in order.
 --
--- When to add a step: a field was renamed, moved or changed type. A brand
--- new field needs no step, because Reconcile copies it from the template
--- after migrations run.
+-- When to add a step: a field was renamed, moved or changed type, or a new
+-- field was added inside per-item records like pets (see ProfileTypes). A
+-- new field on a fixed table needs no step, because Reconcile copies it
+-- from the template after migrations run. Steps run before Reconcile, so
+-- a step can't count on such a field being there yet.
 --
 -- Never edit or delete a step once it has shipped: saves at that version
 -- may still be waiting to load.

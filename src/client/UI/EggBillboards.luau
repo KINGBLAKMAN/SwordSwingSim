@@ -115,7 +115,7 @@ local function EggBoard(props: { stand: EggController.Stand })
 			text = "Details",
 			color = UI.COLORS.secondary,
 			textSize = UI.TEXT_SIZE.small,
-			size = UDim2.new(0.48, 0, 1, 0),
+			size = UDim2.fromScale(0.48, 1),
 			onActivated = function()
 				EggController.select(eggId)
 				Router.open("EggOdds")
@@ -123,7 +123,7 @@ local function EggBoard(props: { stand: EggController.Stand })
 		}),
 		Open = e(Button, {
 			text = "Open",
-			size = UDim2.new(0.48, 0, 1, 0),
+			size = UDim2.fromScale(0.48, 1),
 			position = UDim2.fromScale(1, 0),
 			anchorPoint = Vector2.new(1, 0),
 			onActivated = function()

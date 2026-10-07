@@ -34,11 +34,18 @@ local remoteEvents: { [string]: RemoteEvent } = {}
 local limiters: { [string]: RateLimiter.RateLimiter } = {}
 local handled: { [string]: boolean } = {}
 
-local function getSchema(name: string, direction: RemoteSchemas.Direction): RemoteSchemas.Schema
+-- Looks up a remote by name and checks it's used in the right direction.
+-- Errors with a clear message on a typo or if Remotes.init hasn't run yet.
+local function getRemote(
+	name: string,
+	direction: RemoteSchemas.Direction
+): (RemoteSchemas.Schema, RemoteEvent)
 	local schema = RemoteSchemas[name]
 	assert(schema, `Remotes: no schema named "{name}"`)
 	assert(schema.direction == direction, `Remotes: "{name}" is not a {direction} remote`)
-	return schema
+	local remoteEvent = remoteEvents[name]
+	assert(remoteEvent, `Remotes: "{name}" used before Remotes.init ran`)
+	return schema, remoteEvent
 end
 
 local function reject(player: Player, name: string, reason: string, shouldWarn: boolean)
@@ -81,12 +88,12 @@ end
 
 -- Connects the one handler for a client-to-server remote.
 function Remotes.on(name: string, handler: Handler)
-	local schema = getSchema(name, "ToServer")
+	local schema, remoteEvent = getRemote(name, "ToServer")
 	assert(not handled[name], `Remotes: "{name}" already has a handler`)
 	handled[name] = true
 
 	local limiter = limiters[name]
-	remoteEvents[name].OnServerEvent:Connect(function(player: Player, ...: unknown)
+	remoteEvent.OnServerEvent:Connect(function(player: Player, ...: unknown)
 		if not limiter.allow(player, os.clock()) then
 			reject(player, name, "rate limited", false)
 			return
@@ -104,14 +111,14 @@ end
 
 -- Sends a server-to-client remote to one player.
 function Remotes.fire(name: string, player: Player, ...: any)
-	getSchema(name, "ToClient")
-	remoteEvents[name]:FireClient(player, ...)
+	local _, remoteEvent = getRemote(name, "ToClient")
+	remoteEvent:FireClient(player, ...)
 end
 
 -- Sends a server-to-client remote to every player.
 function Remotes.fireAll(name: string, ...: any)
-	getSchema(name, "ToClient")
-	remoteEvents[name]:FireAllClients(...)
+	local _, remoteEvent = getRemote(name, "ToClient")
+	remoteEvent:FireAllClients(...)
 end
 
 return Remotes

@@ -127,6 +127,9 @@ export type Profile = {
 		tutorialStep: number,
 		-- True once the player got Combat.START_ENERGY (ClickService).
 		startingEnergyGranted: boolean,
+		-- Onboarding funnel steps already logged, by step name
+		-- (FunnelService, Config/Analytics).
+		onboardingLogged: { [string]: boolean },
 	},
 
 	-- os.time() when the player last left, for offline rewards (GDD A10).

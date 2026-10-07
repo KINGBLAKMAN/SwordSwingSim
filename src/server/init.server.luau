@@ -24,6 +24,7 @@ local services: { Bootstrap.Entry } = {
 	{ name = "EggService", module = require(script.Services.EggService) },
 	{ name = "QuestService", module = require(script.Services.QuestService) },
 	{ name = "IslandService", module = require(script.Services.IslandService) },
+	{ name = "FunnelService", module = require(script.Services.FunnelService) },
 	{ name = "SettingsService", module = require(script.Services.SettingsService) },
 }
 

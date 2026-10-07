@@ -168,7 +168,7 @@ Run these in order.
    ```
    Add island 2's unlock, requirement and teleport per GDD A12.
    ```
-9. **MVP check**
+9. **MVP check** — done (Oct 7, 2026): see `docs/playtest-mvp.md`
    ```
    Write a playtest checklist from the D2 exit criteria and walk me through
    testing it in Studio.

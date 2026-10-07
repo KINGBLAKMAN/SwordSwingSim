@@ -27,6 +27,7 @@ local TickScheduler = require(ReplicatedStorage.Shared.Util.TickScheduler)
 local Remotes = require(script.Parent.Parent.Net.Remotes)
 local CurrencyService = require(script.Parent.CurrencyService)
 local DataService = require(script.Parent.DataService)
+local FunnelService = require(script.Parent.FunnelService)
 local StatService = require(script.Parent.StatService)
 
 local ClickService = {}
@@ -56,6 +57,7 @@ end
 local function onClick(player: Player)
 	if clickCredit.allow(player, os.clock()) then
 		ClickService.grantClicks(player, 1)
+		FunnelService.reached(player, "FirstClick")
 	end
 end
 

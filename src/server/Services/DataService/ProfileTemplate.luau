@@ -62,7 +62,12 @@ local template: ProfileTypes.Profile = {
 
 	settings = {},
 	autos = {},
-	flags = { groupRewardClaimed = false, tutorialStep = 0, startingEnergyGranted = false },
+	flags = {
+		groupRewardClaimed = false,
+		tutorialStep = 0,
+		startingEnergyGranted = false,
+		onboardingLogged = {},
+	},
 
 	lastOnline = 0,
 }

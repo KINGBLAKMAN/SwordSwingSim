@@ -15,9 +15,11 @@ local Drops = require(ReplicatedStorage.Shared.Config.Drops)
 local Hatching = require(ReplicatedStorage.Shared.Config.Hatching)
 local PetMath = require(ReplicatedStorage.Shared.Util.PetMath)
 local PetRules = require(ReplicatedStorage.Shared.Config.PetRules)
+local Products = require(ReplicatedStorage.Shared.Config.Products)
 local StatMath = require(ReplicatedStorage.Shared.Util.StatMath)
 local ComplianceService = require(script.Parent.ComplianceService)
 local DataService = require(script.Parent.DataService)
+local MonetizationService = require(script.Parent.MonetizationService)
 
 type Stats = {
 	petMultiplier: number,
@@ -110,9 +112,11 @@ function StatService.swordMultiplier(_player: Player): number
 	return 1
 end
 
--- Coins multiplier on kill rewards. The x2 Coins pass raises it once
--- purchases exist (MonetizationService).
-function StatService.coinMultiplier(_player: Player): number
+-- Coins multiplier on kill and quest rewards: x2 with the x2 Coins pass.
+function StatService.coinMultiplier(player: Player): number
+	if MonetizationService.ownsPass(player, "x2_coins") then
+		return Products.X2_COINS_MULTIPLIER
+	end
 	return 1
 end
 

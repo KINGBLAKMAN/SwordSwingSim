@@ -20,6 +20,7 @@ local specs = {
 	PetMath = require("./PetMath.spec"),
 	ProfileDelta = require("./ProfileDelta.spec"),
 	Quests = require("./Quests.spec"),
+	Receipts = require("./Receipts.spec"),
 	RateLimiter = require("./RateLimiter.spec"),
 	ScaleMath = require("./ScaleMath.spec"),
 	StatMath = require("./StatMath.spec"),

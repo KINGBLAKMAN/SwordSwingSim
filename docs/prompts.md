@@ -159,7 +159,7 @@ Run these in order.
    ```
    Build QuestService with island 1's quest chain per GDD A13.
    ```
-7. **First purchase**
+7. **First purchase** — done (Oct 7, 2026)
    ```
    Add the x2 Coins game pass and the ProcessReceipt flow per TDD B10, with
    the idempotency test.

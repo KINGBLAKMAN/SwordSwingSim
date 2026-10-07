@@ -13,6 +13,7 @@ local BigNum = require(ReplicatedStorage.Shared.Util.BigNum)
 local ProfileTypes = require(ReplicatedStorage.Shared.Data.ProfileTypes)
 local QuestRules = require(ReplicatedStorage.Shared.Util.QuestRules)
 local Quests = require(ReplicatedStorage.Shared.Config.Quests)
+local Signal = require(ReplicatedStorage.Packages.Signal)
 local Remotes = require(script.Parent.Parent.Net.Remotes)
 local CombatService = require(script.Parent.CombatService)
 local CurrencyService = require(script.Parent.CurrencyService)
@@ -22,6 +23,9 @@ local EnemyService = require(script.Parent.EnemyService)
 local StatService = require(script.Parent.StatService)
 
 local QuestService = {}
+
+-- (player, questId) after a quest's reward is granted.
+QuestService.claimed = Signal.new()
 
 -- Starts the active quest of each unlocked island that hasn't started yet.
 -- Call it again when an island unlocks.
@@ -75,6 +79,7 @@ local function onClaimQuest(player: Player, questId: string)
 	local coins = quest.rewardCoins * StatService.coinMultiplier(player)
 	CurrencyService.add(player, "coins", BigNum.fromNumber(coins), `Quest:{quest.id}`)
 	QuestService.refresh(player)
+	QuestService.claimed:Fire(player, quest.id)
 end
 
 local function onKillCredited(player: Player, enemy: EnemyService.Enemy)

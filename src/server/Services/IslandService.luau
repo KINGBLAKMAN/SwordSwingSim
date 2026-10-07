@@ -18,6 +18,7 @@ local DataConfig = require(ReplicatedStorage.Shared.Config.Data)
 local IslandRules = require(ReplicatedStorage.Shared.Util.IslandRules)
 local Islands = require(ReplicatedStorage.Shared.Config.Islands)
 local ProfileTypes = require(ReplicatedStorage.Shared.Data.ProfileTypes)
+local Signal = require(ReplicatedStorage.Packages.Signal)
 local Travel = require(ReplicatedStorage.Shared.Config.Travel)
 local Remotes = require(script.Parent.Parent.Net.Remotes)
 local CurrencyService = require(script.Parent.CurrencyService)
@@ -26,6 +27,9 @@ local QuestService = require(script.Parent.QuestService)
 local WorldService = require(script.Parent.WorldService)
 
 local IslandService = {}
+
+-- (player, islandId) after a player pays to unlock an island.
+IslandService.unlocked = Signal.new()
 
 local function notify(player: Player, message: string)
 	Remotes.fire("Notify", player, message)
@@ -90,6 +94,7 @@ local function onUnlockIsland(player: Player, islandId: string)
 	notify(player, `{island.name} unlocked!`)
 	QuestService.refresh(player)
 	moveTo(player, islandId)
+	IslandService.unlocked:Fire(player, islandId)
 end
 
 local function onProfileLoaded(player: Player, data: ProfileTypes.Profile)

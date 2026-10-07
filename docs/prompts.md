@@ -155,7 +155,7 @@ Run these in order.
    Build PetService per GDD A7: inventory, equip, Equip Best, locks, and
    client-only pet following per TDD B8.
    ```
-6. **Quests**
+6. **Quests** — done (Oct 7, 2026)
    ```
    Build QuestService with island 1's quest chain per GDD A13.
    ```

@@ -23,6 +23,7 @@ local Eggs = require(ReplicatedStorage.Shared.Config.Eggs)
 local Hatching = require(ReplicatedStorage.Shared.Config.Hatching)
 local OddsCalculator = require(ReplicatedStorage.Shared.Util.OddsCalculator)
 local ProfileTypes = require(ReplicatedStorage.Shared.Data.ProfileTypes)
+local Signal = require(ReplicatedStorage.Packages.Signal)
 local Remotes = require(script.Parent.Parent.Net.Remotes)
 local ComplianceService = require(script.Parent.ComplianceService)
 local CurrencyService = require(script.Parent.CurrencyService)
@@ -34,6 +35,9 @@ local WorldService = require(script.Parent.WorldService)
 export type HatchedPet = { uid: string, pet: string, isNew: boolean }
 
 local EggService = {}
+
+-- (player, eggId, opens) after a paid open, for quests.
+EggService.opened = Signal.new()
 
 -- One server-side Random per player (TDD B7).
 local randoms: { [Player]: Random } = {}
@@ -117,6 +121,7 @@ local function onOpenEgg(player: Player, eggId: string, count: number?)
 		return total + opens
 	end)
 	Remotes.fire("HatchResult", player, egg.id, hatched)
+	EggService.opened:Fire(player, egg.id, opens)
 end
 
 function EggService.start()

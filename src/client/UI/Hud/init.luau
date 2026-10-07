@@ -4,6 +4,7 @@
 --
 --   currencies (top-left)   level bar + boosts (top-center)
 --   menu grid under them                     Click! + Auto toggle (right)
+--   active quest under the menu
 --             enemy info panel (top-center, while hovering or tapping one)
 --        rare-drop banner, drop toasts and boss HP bar (center to bottom)
 --
@@ -23,6 +24,7 @@ local EnemyInfoPanel = require(script.EnemyInfoPanel)
 local LevelBar = require(script.LevelBar)
 local MenuRail = require(script.MenuRail)
 local Notices = require(script.Notices)
+local QuestTracker = require(script.QuestTracker)
 
 local e = React.createElement
 
@@ -51,6 +53,7 @@ local function Hud()
 			}),
 			Currencies = e(CurrencyBar, { layoutOrder = 1 }),
 			Menu = e(MenuRail, { layoutOrder = 2 }),
+			Quest = e(QuestTracker, { layoutOrder = 3 }),
 		}),
 		Top = e("Frame", {
 			Position = UDim2.fromScale(0.5, 0),

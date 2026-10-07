@@ -20,6 +20,7 @@ local services: { Bootstrap.Entry } = {
 	{ name = "EnemyService", module = require(script.Services.EnemyService) },
 	{ name = "CombatService", module = require(script.Services.CombatService) },
 	{ name = "DropService", module = require(script.Services.DropService) },
+	{ name = "PetService", module = require(script.Services.PetService) },
 	{ name = "EggService", module = require(script.Services.EggService) },
 	{ name = "SettingsService", module = require(script.Services.SettingsService) },
 }

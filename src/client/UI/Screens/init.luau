@@ -5,11 +5,12 @@
 
 local EggOddsScreen = require(script.EggOddsScreen)
 local GalleryScreen = require(script.GalleryScreen)
+local PetsScreen = require(script.PetsScreen)
 local PlaceholderScreen = require(script.PlaceholderScreen)
 local SettingsScreen = require(script.SettingsScreen)
 
 local Screens: { [string]: () -> any } = {
-	Pets = PlaceholderScreen.make("Pets"),
+	Pets = PetsScreen,
 	Weapons = PlaceholderScreen.make("Swords"),
 	Quests = PlaceholderScreen.make("Quests"),
 	Store = PlaceholderScreen.make("Store"),

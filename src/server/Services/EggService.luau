@@ -12,10 +12,8 @@
 -- panel uses, with luck from ComplianceService.luckFor and pity from the
 -- profile. HatchResult tells the client what came out.
 --
--- Pets are stored straight into the profile for now; PetService takes
--- this over when it's built.
+-- Hatched pets go to PetService, which owns the inventory.
 
-local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -29,6 +27,7 @@ local Remotes = require(script.Parent.Parent.Net.Remotes)
 local ComplianceService = require(script.Parent.ComplianceService)
 local CurrencyService = require(script.Parent.CurrencyService)
 local DataService = require(script.Parent.DataService)
+local PetService = require(script.Parent.PetService)
 local StatService = require(script.Parent.StatService)
 local WorldService = require(script.Parent.WorldService)
 
@@ -53,14 +52,6 @@ local function notify(player: Player, message: string)
 	Remotes.fire("Notify", player, message)
 end
 
-local function countPets(data: ProfileTypes.Profile): number
-	local count = 0
-	for _ in data.pets do
-		count += 1
-	end
-	return count
-end
-
 local function isNearEgg(player: Player, egg: Eggs.EggDef): boolean
 	local stand = WorldService.eggStand(egg.island)
 	local character = player.Character
@@ -72,23 +63,6 @@ local function isNearEgg(player: Player, egg: Eggs.EggDef): boolean
 	return (root.Position - stand.Position).Magnitude <= reach
 end
 
--- Adds a pet to the profile and marks it in the index. Returns whether the
--- player had never owned this pet before.
-local function storePet(player: Player, petId: string, source: string): (string, boolean)
-	local data = DataService.get(player) :: ProfileTypes.Profile
-	local seen = data.index.pets[petId]
-	local isNew = seen == nil or seen.Normal ~= true
-
-	local uid = HttpService:GenerateGUID(false)
-	DataService.set(player, { "pets", uid }, EggRules.newPet(uid, petId, source, os.time()))
-	DataService.update(player, { "index", "pets", petId }, function(variants)
-		local updated = variants or {}
-		updated.Normal = true
-		return updated
-	end)
-	return uid, isNew
-end
-
 -- Rolls one egg: picks the pet, updates pity and stores the pet.
 local function hatchOne(player: Player, egg: Eggs.EggDef, luck: number): HatchedPet
 	local data = DataService.get(player) :: ProfileTypes.Profile
@@ -97,8 +71,9 @@ local function hatchOne(player: Player, egg: Eggs.EggDef, luck: number): Hatched
 	local petId = OddsCalculator.roll(egg, options, randomFor(player):NextNumber())
 
 	DataService.set(player, { "pity", egg.id }, EggRules.nextPity(egg, opensSincePity, petId))
-	local uid, isNew = storePet(player, petId, `Egg:{egg.id}`)
-	return { uid = uid, pet = petId, isNew = isNew }
+	-- Room was checked before paying, so this always finds space.
+	local uid, isNew = PetService.addPet(player, petId, `Egg:{egg.id}`)
+	return { uid = uid or "", pet = petId, isNew = isNew }
 end
 
 local function onOpenEgg(player: Player, eggId: string, count: number?)
@@ -121,7 +96,7 @@ local function onOpenEgg(player: Player, eggId: string, count: number?)
 		notify(player, "This egg isn't available in your region.")
 		return
 	end
-	if countPets(data) + opens > data.petStorageCap then
+	if not PetService.hasRoom(player, opens) then
 		notify(player, "Your pet storage is full. Delete some pets to make room.")
 		return
 	end

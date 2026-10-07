@@ -14,10 +14,12 @@ Original anime sword simulator for Roblox. The full plan (GDD part A, TDD part B
 
 - `src/server` → ServerScriptService.Server: `init.server.luau` lists services in startup order; `Services/`, `Net/Remotes`.
 - `src/client` → StarterPlayerScripts.Client: `init.client.luau` lists controllers; `Controllers/`, `UI/`, `Net/Remotes`.
-- `src/shared` → ReplicatedStorage.Shared: `Bootstrap` (init all, then start all), `Config/`, `Net/` (RemoteSchemas, Validate, RateLimiter), `Util/`.
+- `src/shared` → ReplicatedStorage.Shared: `Bootstrap` (init all, then start all), `Config/`, `Data/` (ProfileTypes, ProfileDelta), `Net/` (RemoteSchemas, Validate, RateLimiter), `Util/`.
 - `tests/` → Lune unit tests for pure modules. Add each new spec to `tests/run.luau`.
 
 New service or controller: a module with optional `init()` and `start()`, added by hand to its entry script's list. Connect remotes in `start()`.
+
+Player data: read with `DataService.get`, write only with `DataService.set` / `update` so the change reaches the client. A new profile field goes in `Shared/Data/ProfileTypes` and `DataService/ProfileTemplate`; a renamed, moved or retyped field also needs a step in `DataService/Migrations`.
 
 New remote: schema in `Shared/Net/RemoteSchemas` (a `Validate` check per argument, intent only), rate limit in `Config/RemoteLimits` for `ToServer` remotes, then `Remotes.on` / `Remotes.fire`.
 

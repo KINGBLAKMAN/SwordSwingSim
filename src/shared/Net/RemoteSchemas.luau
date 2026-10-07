@@ -29,6 +29,14 @@ local RemoteSchemas: { [string]: Schema } = {
 		args = {},
 	},
 
+	-- Server sends changes to the player's own profile, batched a few times
+	-- a second (TDD B6). The first one after joining is the whole profile.
+	-- args: (changes: { ProfileDelta.Change })
+	ProfileDelta = {
+		direction = "ToClient",
+		args = {},
+	},
+
 	-- Server shows the player a short message.
 	-- args: (message: string)
 	Notify = {

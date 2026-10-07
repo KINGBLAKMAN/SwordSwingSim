@@ -84,7 +84,9 @@ GDD A4 (suffix list K, M, B ... then 1.23e123). Include tests, including a
 chi-squared check on WeightedRandom over 1,000,000 rolls.
 ```
 
-### Save system
+### Save system — done (Oct 7, 2026)
+
+Already done: DataService with ProfileStore, the Profile type, migrations, Reconcile, the kick-to-rejoin path when data fails to load, ProfileDelta replication and the client DataController. Keep this prompt for reference.
 ```
 Build DataService per TDD B3–B4 with ProfileStore: the Profile type,
 schemaVersion migrations, Reconcile, a safe path when data fails to load

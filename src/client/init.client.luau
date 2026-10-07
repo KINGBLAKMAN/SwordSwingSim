@@ -7,7 +7,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Bootstrap = require(ReplicatedStorage.Shared.Bootstrap)
 
 local controllers: { Bootstrap.Entry } = {
-	-- { name = "InputController", module = require(script.Controllers.InputController) },
+	-- DataController first: other controllers read the profile copy it keeps.
+	{ name = "DataController", module = require(script.Controllers.DataController) },
 }
 
 Bootstrap.run("Client", controllers)

@@ -12,10 +12,10 @@
 -- Modules are listed by hand in the entry scripts instead of discovered
 -- from a folder, so the type checker can see every require.
 
-export type Module = {
-	init: (() -> ())?,
-	start: (() -> ())?,
-}
+-- A module has init, start or both. This is a union rather than one table
+-- with two optional fields because Luau's type checker rejects a required
+-- module that leaves an optional field out (a controller with only start).
+export type Module = { init: () -> (), start: () -> () } | { init: () -> () } | { start: () -> () }
 
 export type Entry = {
 	name: string,
@@ -24,9 +24,14 @@ export type Entry = {
 
 local Bootstrap = {}
 
+-- The module's init or start function, or nil if it doesn't have one.
+local function phaseFunction(module: Module, phase: "init" | "start"): (() -> ())?
+	return (module :: any)[phase]
+end
+
 local function initAll(side: string, entries: { Entry })
 	for _, entry in entries do
-		local init = entry.module.init
+		local init = phaseFunction(entry.module, "init")
 		if init then
 			local ok, err = pcall(function()
 				init()
@@ -42,7 +47,7 @@ end
 
 local function startAll(entries: { Entry })
 	for _, entry in entries do
-		local start = entry.module.start
+		local start = phaseFunction(entry.module, "start")
 		if start then
 			-- Each start runs in its own thread so one module waiting on
 			-- something cannot hold up the rest.

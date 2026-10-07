@@ -34,7 +34,7 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 | --- | --- | --- |
 | `src/server` | ServerScriptService.Server | Entry script, `Services/` (TDD B2) and `Net/Remotes`. Owns RNG, damage and currencies. |
 | `src/client` | StarterPlayerScripts.Client | Entry script, `Controllers/`, `UI/` (React-lua screens) and `Net/Remotes`. Renders and sends intent. |
-| `src/shared` | ReplicatedStorage.Shared | `Bootstrap`, `Config/` (tuning tables, remote rate limits, asset registry), `Net/` (remote schemas, validation, rate limiter), `Util/`. |
+| `src/shared` | ReplicatedStorage.Shared | `Bootstrap`, `Config/` (tuning tables, remote rate limits, asset registry), `Data/` (profile type and delta replication), `Net/` (remote schemas, validation, rate limiter), `Util/` (BigNum, Format, WeightedRandom). |
 | `Packages/` | ReplicatedStorage.Packages | Wally shared packages: React, ReactRoblox, Signal, Trove. |
 | `ServerPackages/` | ServerScriptService.ServerPackages | Wally server packages: ProfileStore. |
 
@@ -43,6 +43,12 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 1. Add its schema to `src/shared/Net/RemoteSchemas.luau`, with a `Validate` check for every argument. Only send intent, never amounts, prices or outcomes.
 2. For a `ToServer` remote, add its rate limit to `src/shared/Config/RemoteLimits.luau`. The server won't start without one.
 3. On the server, call `Remotes.on("Name", handler)` in the service's `start()`. The handler only runs for calls that passed the rate limit and the argument checks. On the client, call `Remotes.fire("Name", ...)`.
+
+### Changing player data
+
+1. Add the field to `src/shared/Data/ProfileTypes.luau` and give it a starting value in `src/server/Services/DataService/ProfileTemplate.luau`. Reconcile copies it into existing saves.
+2. If you renamed, moved or changed the type of a field, also add a step to `src/server/Services/DataService/Migrations.luau`. Never edit a step that has shipped.
+3. In code, write with `DataService.set(player, path, value)` or `DataService.update(...)`, never straight into the profile table, so the client gets the change.
 
 New services and controllers are added by hand to the list in their entry script, so startup order is explicit and fully typed.
 

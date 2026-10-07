@@ -10,7 +10,7 @@ local Bootstrap = require(ReplicatedStorage.Shared.Bootstrap)
 local services: { Bootstrap.Entry } = {
 	-- Remotes first: its init creates the RemoteEvents that services connect to in start.
 	{ name = "Remotes", module = require(script.Net.Remotes) },
-	-- { name = "DataService", module = require(script.Services.DataService) },
+	{ name = "DataService", module = require(script.Services.DataService) },
 }
 
 Bootstrap.run("Server", services)

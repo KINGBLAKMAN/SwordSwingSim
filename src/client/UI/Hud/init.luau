@@ -4,7 +4,8 @@
 --
 --   currencies (top-left)   level bar + boosts (top-center)
 --   menu grid under them                     Click! + Auto toggle (right)
---                  boss HP bar (bottom-center, only vs a boss)
+--             enemy info panel (top-center, while hovering or tapping one)
+--        rare-drop banner, drop toasts and boss HP bar (center to bottom)
 --
 -- The bottom corners stay clear for Roblox's thumbstick and jump button.
 
@@ -17,6 +18,8 @@ local BoostChips = require(script.BoostChips)
 local BossBar = require(script.BossBar)
 local ClickButton = require(script.ClickButton)
 local CurrencyBar = require(script.CurrencyBar)
+local DropToasts = require(script.DropToasts)
+local EnemyInfoPanel = require(script.EnemyInfoPanel)
 local LevelBar = require(script.LevelBar)
 local MenuRail = require(script.MenuRail)
 
@@ -64,6 +67,8 @@ local function Hud()
 			Boosts = e(BoostChips, { layoutOrder = 2 }),
 		}),
 		Boss = e(BossBar),
+		Drops = e(DropToasts),
+		EnemyInfo = e(EnemyInfoPanel),
 		Right = e("Frame", {
 			Position = UDim2.fromScale(1, UI.HUD.CLICK_BUTTON_Y),
 			AnchorPoint = Vector2.new(1, 0.5),

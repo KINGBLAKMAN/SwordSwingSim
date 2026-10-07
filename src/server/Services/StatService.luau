@@ -11,6 +11,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Clicking = require(ReplicatedStorage.Shared.Config.Clicking)
+local Drops = require(ReplicatedStorage.Shared.Config.Drops)
 local StatMath = require(ReplicatedStorage.Shared.Util.StatMath)
 local DataService = require(script.Parent.DataService)
 
@@ -59,8 +60,13 @@ local function statsFor(player: Player): Stats
 	return stats
 end
 
+local function publishDisplayStats(player: Player)
+	player:SetAttribute(Drops.DROP_BOOST_ATTRIBUTE, StatService.dropBoost(player))
+end
+
 function StatService.start()
 	Players.PlayerRemoving:Connect(StatService.invalidate)
+	DataService.onLoaded(publishDisplayStats)
 end
 
 -- Drops the player's cached numbers. Call after changing anything a
@@ -92,6 +98,13 @@ end
 -- purchases exist (MonetizationService).
 function StatService.coinMultiplier(_player: Player): number
 	return 1
+end
+
+-- Drop boost: each rolled drop chance is multiplied by (1 + boost). Nothing
+-- gives one yet. The value is mirrored in the player's DROP_BOOST_ATTRIBUTE
+-- so the enemy info panel shows boosted odds.
+function StatService.dropBoost(_player: Player): number
+	return 0
 end
 
 -- Auto-clicks per second. The Auto-Click+ pass raises it once purchases

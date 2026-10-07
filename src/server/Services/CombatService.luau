@@ -8,7 +8,8 @@
 -- and works out the damage from the player's Energy.
 --
 -- When an enemy dies, everyone who dealt at least KILL_CREDIT_SHARE of its
--- max HP gets its Coins (shared kill credit).
+-- max HP gets the kill (shared kill credit): CombatService.killCredited
+-- fires once per credited player, and DropService hands out the rewards.
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -17,13 +18,17 @@ local BigNum = require(ReplicatedStorage.Shared.Util.BigNum)
 local Combat = require(ReplicatedStorage.Shared.Config.Combat)
 local CombatMath = require(ReplicatedStorage.Shared.Util.CombatMath)
 local EnemySpawning = require(ReplicatedStorage.Shared.Config.EnemySpawning)
+local Signal = require(ReplicatedStorage.Packages.Signal)
 local Remotes = require(script.Parent.Parent.Net.Remotes)
-local CurrencyService = require(script.Parent.CurrencyService)
 local DataService = require(script.Parent.DataService)
 local EnemyService = require(script.Parent.EnemyService)
 local StatService = require(script.Parent.StatService)
 
 local CombatService = {}
+
+-- Fired with (player: Player, enemy: EnemyService.Enemy) for each player
+-- who earned credit for a kill.
+CombatService.killCredited = Signal.new()
 
 local MIN_SECONDS_BETWEEN_SWINGS = EnemySpawning.SWING_INTERVAL_TOLERANCE / Combat.SWING_RATE
 
@@ -91,18 +96,13 @@ local function onAttackTarget(player: Player, enemyUid: string)
 	Remotes.fire("DamageFx", player, enemyUid, dealt, isCrit)
 end
 
-local function rewardKill(player: Player, enemy: EnemyService.Enemy)
-	local coins = enemy.def.coins * StatService.coinMultiplier(player)
-	CurrencyService.add(player, "coins", BigNum.fromNumber(coins), "Kill")
-	DataService.update(player, { "stats", "totalKills" }, function(kills)
-		return kills + 1
-	end)
-end
-
 local function onEnemyKilled(enemy: EnemyService.Enemy)
 	for _, player in CombatMath.creditedPlayers(enemy.damageBy, enemy.maxHp) do
 		if DataService.isLoaded(player) then
-			rewardKill(player, enemy)
+			DataService.update(player, { "stats", "totalKills" }, function(kills)
+				return kills + 1
+			end)
+			CombatService.killCredited:Fire(player, enemy)
 		end
 	end
 end

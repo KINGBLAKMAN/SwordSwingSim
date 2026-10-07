@@ -16,6 +16,7 @@ local controllers: { Bootstrap.Entry } = {
 		name = "DamageNumberController",
 		module = require(script.Controllers.DamageNumberController),
 	},
+	{ name = "DropController", module = require(script.Controllers.DropController) },
 	{ name = "UIController", module = require(script.Controllers.UIController) },
 }
 

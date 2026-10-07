@@ -97,6 +97,33 @@ UI.BOSS_BAR = {
 	BOTTOM_OFFSET = 70,
 }
 
+-- Short "+1 Scroll Token" toasts when something drops (GDD A9).
+UI.DROP_TOASTS = {
+	SECONDS = 2.5,
+	-- Older toasts drop off once this many are showing.
+	MAX_SHOWN = 5,
+	SIZE = Vector2.new(240, 26),
+	-- Pixels up from the bottom of the safe area, above the boss bar.
+	BOTTOM_OFFSET = 110,
+}
+
+-- The big banner for a rare drop (Config/Drops.RARE_CHANCE or less).
+UI.RARE_BANNER = {
+	SECONDS = 4,
+	SIZE = Vector2.new(460, 64),
+	-- Share of the screen height from the top to the banner's middle.
+	Y = 0.28,
+	COLOR = Color3.fromRGB(255, 196, 40),
+}
+
+-- The panel listing an enemy's drops, shown while one is hovered or tapped.
+UI.ENEMY_INFO = {
+	WIDTH = 260,
+	ROW_HEIGHT = 20,
+	-- Pixels from the top of the safe area, under the level bar.
+	TOP_OFFSET = 72,
+}
+
 UI.FONT = Enum.Font.FredokaOne
 UI.TEXT_SIZE = {
 	small = 14,

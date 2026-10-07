@@ -10,6 +10,7 @@ local specs = {
 	Clicking = require("./Clicking.spec"),
 	Combat = require("./Combat.spec"),
 	Config = require("./Config.spec"),
+	Drops = require("./Drops.spec"),
 	Format = require("./Format.spec"),
 	LevelCurve = require("./LevelCurve.spec"),
 	Migrations = require("./Migrations.spec"),

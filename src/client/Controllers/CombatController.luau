@@ -208,6 +208,16 @@ function CombatController.target(): Model?
 	return target
 end
 
+-- True while the player has a target close enough to hit.
+function CombatController.targetInReach(): boolean
+	local root = rootPart()
+	local current = target
+	return root ~= nil
+		and current ~= nil
+		and current.PrimaryPart ~= nil
+		and edgeDistance(root, current) <= EnemySpawning.ATTACK_RANGE
+end
+
 -- Calls callback(target) whenever the target changes.
 function CombatController.onTargetChanged(callback: (target: Model?) -> ())
 	return targetChanged:Connect(callback)

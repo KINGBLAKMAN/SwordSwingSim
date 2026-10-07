@@ -75,6 +75,21 @@ UI.TARGET_RING = {
 	TRANSPARENCY = 0.35,
 }
 
+-- The ring on the ground around the player showing attack range. Its
+-- radius is EnemySpawning.ATTACK_RANGE, so an enemy touching the ring can
+-- be hit.
+UI.RANGE_RING = {
+	-- Studs from the outer edge to the inner edge.
+	WIDTH = 0.6,
+	THICKNESS = 0.05,
+	-- Studs above the ground, so it doesn't flicker into the floor.
+	LIFT = 0.1,
+	COLOR = Color3.fromRGB(120, 200, 255),
+	-- Faint while nothing is in reach, brighter while hitting something.
+	IDLE_TRANSPARENCY = 0.6,
+	ACTIVE_TRANSPARENCY = 0.15,
+}
+
 -- Floating damage numbers (TDD B8: pooled, about 40 on screen at most).
 UI.DAMAGE_NUMBERS = {
 	MAX_ON_SCREEN = 40,

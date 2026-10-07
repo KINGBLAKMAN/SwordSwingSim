@@ -1,8 +1,8 @@
 --!strict
 -- A brand-new player's profile (TDD B3–B4). ProfileStore copies it for new
 -- players, and Reconcile copies any field missing from an older save out of
--- it (on fixed tables only; see ProfileTypes). The Profile type annotation makes the type checker flag a field
--- that's missing here.
+-- it (on fixed tables only; see ProfileTypes). The Profile type annotation
+-- makes the type checker flag a field that's missing here.
 --
 -- Don't change this table at runtime: every new profile is copied from it.
 

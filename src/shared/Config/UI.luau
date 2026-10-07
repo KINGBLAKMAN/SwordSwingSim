@@ -65,10 +65,12 @@ UI.GAP = 6
 UI.BACKDROP_TRANSPARENCY = 0.45
 
 UI.HUD = {
-	CURRENCY_CHIP_SIZE = Vector2.new(150, 34),
+	CURRENCY_CHIP_SIZE = Vector2.new(140, 28),
 	LEVEL_BAR_SIZE = Vector2.new(260, 26),
 	TIMER_CHIP_SIZE = Vector2.new(110, 30),
-	MENU_BUTTON_SIZE = 56,
+	-- Menu buttons sit in a grid this many columns wide, under the currencies.
+	MENU_BUTTON_SIZE = 48,
+	MENU_COLUMNS = 2,
 	-- The Click! button sits on the right, above the mobile jump button
 	-- (which Roblox puts in the bottom-right corner).
 	CLICK_BUTTON_SIZE = 120,
@@ -87,10 +89,30 @@ UI.ITEM_CARD_SIZE = Vector2.new(96, 116)
 -- the icon is uploaded).
 export type CurrencyKey = "energy" | "coins" | "embers" | "gems"
 UI.HUD_CURRENCIES = {
-	{ field = "energy", label = "Energy", icon = "ui.icon.energy", color = Color3.fromRGB(110, 200, 255) },
-	{ field = "coins", label = "Coins", icon = "ui.icon.coins", color = Color3.fromRGB(255, 206, 60) },
-	{ field = "embers", label = "Embers", icon = "ui.icon.embers", color = Color3.fromRGB(255, 120, 48) },
-	{ field = "gems", label = "Gems", icon = "ui.icon.gems", color = Color3.fromRGB(120, 255, 200) },
+	{
+		field = "energy",
+		label = "Energy",
+		icon = "ui.icon.energy",
+		color = Color3.fromRGB(110, 200, 255),
+	},
+	{
+		field = "coins",
+		label = "Coins",
+		icon = "ui.icon.coins",
+		color = Color3.fromRGB(255, 206, 60),
+	},
+	{
+		field = "embers",
+		label = "Embers",
+		icon = "ui.icon.embers",
+		color = Color3.fromRGB(255, 120, 48),
+	},
+	{
+		field = "gems",
+		label = "Gems",
+		icon = "ui.icon.gems",
+		color = Color3.fromRGB(120, 255, 200),
+	},
 } :: { { field: CurrencyKey, label: string, icon: string, color: Color3 } }
 
 -- Buttons on the menu rail, top to bottom. `screen` is a name from

@@ -86,7 +86,10 @@ tests["duration shows minutes and seconds, adding hours past an hour"] = functio
 	}
 	for _, case in cases do
 		local actual = Format.duration(case[1] :: number)
-		assert(actual == case[2], `Format.duration({case[1]}): expected "{case[2]}", got "{actual}"`)
+		assert(
+			actual == case[2],
+			`Format.duration({case[1]}): expected "{case[2]}", got "{actual}"`
+		)
 	end
 end
 

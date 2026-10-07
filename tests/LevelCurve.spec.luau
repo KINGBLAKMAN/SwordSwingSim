@@ -7,7 +7,10 @@ local tests = {}
 
 tests["expToNext matches the tuning sheet's Levels tab"] = function()
 	-- floor(100 × L^1.6): level 1 = 100, level 2 = 303, level 10 = 3981.
-	assert(Levels.LEVEL_EXP_BASE == 100 and Levels.LEVEL_EXP_EXP == 1.6, "sheet values changed; update the expected numbers")
+	assert(
+		Levels.LEVEL_EXP_BASE == 100 and Levels.LEVEL_EXP_EXP == 1.6,
+		"sheet values changed; update the expected numbers"
+	)
 	assert(LevelCurve.expToNext(1) == 100, `level 1: got {LevelCurve.expToNext(1)}`)
 	assert(LevelCurve.expToNext(2) == 303, `level 2: got {LevelCurve.expToNext(2)}`)
 	assert(LevelCurve.expToNext(10) == 3981, `level 10: got {LevelCurve.expToNext(10)}`)

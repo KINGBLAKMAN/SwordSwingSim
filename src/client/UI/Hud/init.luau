@@ -22,6 +22,7 @@ local DropToasts = require(script.DropToasts)
 local EnemyInfoPanel = require(script.EnemyInfoPanel)
 local LevelBar = require(script.LevelBar)
 local MenuRail = require(script.MenuRail)
+local Notices = require(script.Notices)
 
 local e = React.createElement
 
@@ -68,6 +69,7 @@ local function Hud()
 		}),
 		Boss = e(BossBar),
 		Drops = e(DropToasts),
+		Notices = e(Notices),
 		EnemyInfo = e(EnemyInfoPanel),
 		Right = e("Frame", {
 			Position = UDim2.fromScale(1, UI.HUD.CLICK_BUTTON_Y),

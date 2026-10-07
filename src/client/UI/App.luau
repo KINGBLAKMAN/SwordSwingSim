@@ -12,6 +12,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local React = require(ReplicatedStorage.Packages.React)
+local HatchOverlay = require(script.Parent.HatchOverlay)
 local Hud = require(script.Parent.Hud)
 local Screens = require(script.Parent.Screens)
 local useRoute = require(script.Parent.Hooks.useRoute)
@@ -52,6 +53,14 @@ local function App()
 				ZIndex = 2,
 			}, {
 				Content = e(screen),
+			}),
+			-- The hatch animation covers everything, open screens included.
+			Hatch = e("Frame", {
+				Size = UDim2.fromScale(1, 1),
+				BackgroundTransparency = 1,
+				ZIndex = 3,
+			}, {
+				Overlay = e(HatchOverlay),
 			}),
 		}),
 	})

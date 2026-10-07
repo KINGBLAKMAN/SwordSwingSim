@@ -144,7 +144,7 @@ Run these in order.
    Build DropService per GDD A9: rolled and granted drop tables, pet drops at
    12.5–15%, and an enemy info panel showing the full table.
    ```
-4. **Egg**
+4. **Egg** — done (Oct 7, 2026)
    ```
    Build EggService and the egg UI per GDD A6: Open, odds panel with a
    Details button, server roll through OddsCalculator, hatch animation with

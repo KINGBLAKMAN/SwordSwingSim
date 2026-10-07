@@ -9,6 +9,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
+local Islands = require(ReplicatedStorage.Shared.Config.Islands)
 local SpawnLayout = require(ReplicatedStorage.Shared.Util.SpawnLayout)
 local World = require(ReplicatedStorage.Shared.Config.World)
 
@@ -39,6 +40,21 @@ local function makeSpawnPoint(enemyId: string, position: Vector3): Part
 	return point
 end
 
+-- A big egg on a pedestal. EggService checks players are near it.
+local function makeEggStand(eggId: string, groundPosition: Vector3): Part
+	local pedestal =
+		makePart("EggPedestal", Vector3.new(8, 2, 8), groundPosition + Vector3.new(0, 1, 0))
+	pedestal.Color = Color3.fromRGB(90, 80, 70)
+
+	local egg = makePart("EggStand", Vector3.new(5, 7, 5), groundPosition + Vector3.new(0, 5.5, 0))
+	egg.Shape = Enum.PartType.Ball
+	egg.Color = Color3.fromRGB(245, 235, 210)
+	egg.Material = Enum.Material.SmoothPlastic
+	egg:SetAttribute("Egg", eggId)
+	pedestal.Parent = egg
+	return egg
+end
+
 local function buildPlaceholder(islandId: string, layout: World.IslandLayout): Model
 	local model = Instance.new("Model")
 	model.Name = islandId
@@ -60,6 +76,11 @@ local function buildPlaceholder(islandId: string, layout: World.IslandLayout): M
 	spawn.Position = layout.origin + layout.spawn + Vector3.new(0, 0.5, 0)
 	spawn.Neutral = true
 	spawn.Parent = model
+
+	local island = Islands[islandId]
+	if island then
+		makeEggStand(island.egg, layout.origin + layout.egg).Parent = model
+	end
 
 	local spawns = Instance.new("Folder")
 	spawns.Name = "EnemySpawns"
@@ -111,6 +132,16 @@ function WorldService.enemySpawnPoints(islandId: string): { BasePart }
 		end
 	end
 	return points
+end
+
+-- The island's egg stand: the part players open its egg at.
+function WorldService.eggStand(islandId: string): BasePart?
+	local island = WorldService.island(islandId)
+	local stand = island and island:FindFirstChild("EggStand", true)
+	if stand and stand:IsA("BasePart") then
+		return stand
+	end
+	return nil
 end
 
 -- Where players arrive on the island, or nil if it has no Spawn.

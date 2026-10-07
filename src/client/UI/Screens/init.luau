@@ -3,15 +3,19 @@
 -- Config/UI.MENU use these names. Swap a placeholder for the real screen
 -- when its system is built.
 
+local EggOddsScreen = require(script.EggOddsScreen)
 local GalleryScreen = require(script.GalleryScreen)
 local PlaceholderScreen = require(script.PlaceholderScreen)
+local SettingsScreen = require(script.SettingsScreen)
 
 local Screens: { [string]: () -> any } = {
 	Pets = PlaceholderScreen.make("Pets"),
 	Weapons = PlaceholderScreen.make("Swords"),
 	Quests = PlaceholderScreen.make("Quests"),
 	Store = PlaceholderScreen.make("Store"),
-	Settings = PlaceholderScreen.make("Settings"),
+	Settings = SettingsScreen,
+	-- Opened by an egg's Details button, not from the menu.
+	EggOdds = EggOddsScreen,
 	Gallery = GalleryScreen,
 }
 

@@ -5,7 +5,8 @@
 --
 -- A real map replaces it by having the same shape: a model named after the
 -- island id with a SpawnLocation named Spawn and an EnemySpawns folder of
--- parts, each with an Enemy attribute naming the enemy id that stands there.
+-- parts, each with an Enemy attribute naming the enemy id that stands there,
+-- and a part named EggStand with an Egg attribute naming the island's egg.
 
 export type Zone = {
 	enemy: string,
@@ -23,6 +24,8 @@ export type IslandLayout = {
 	groundColor: Color3,
 	-- Where players appear, relative to the origin.
 	spawn: Vector3,
+	-- Where the island's egg stands, relative to the origin.
+	egg: Vector3,
 	zones: { Zone },
 }
 
@@ -35,6 +38,7 @@ local World = {
 			groundSize = Vector3.new(260, 2, 260),
 			groundColor = Color3.fromRGB(110, 150, 90),
 			spawn = Vector3.new(0, 0, 100),
+			egg = Vector3.new(30, 0, 95),
 			zones = {
 				{ enemy = "kohai", center = Vector3.new(0, 0, 45), radius = 22, count = 10 },
 				{

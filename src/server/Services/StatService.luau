@@ -12,7 +12,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Clicking = require(ReplicatedStorage.Shared.Config.Clicking)
 local Drops = require(ReplicatedStorage.Shared.Config.Drops)
+local Hatching = require(ReplicatedStorage.Shared.Config.Hatching)
 local StatMath = require(ReplicatedStorage.Shared.Util.StatMath)
+local ComplianceService = require(script.Parent.ComplianceService)
 local DataService = require(script.Parent.DataService)
 
 type Stats = {
@@ -60,13 +62,17 @@ local function statsFor(player: Player): Stats
 	return stats
 end
 
-local function publishDisplayStats(player: Player)
+-- Mirrors the numbers the client needs to show real odds into player
+-- attributes. Call again when a source changes.
+function StatService.publishDisplayStats(player: Player)
 	player:SetAttribute(Drops.DROP_BOOST_ATTRIBUTE, StatService.dropBoost(player))
+	local luck = ComplianceService.luckFor(player, StatService.luckSources(player))
+	player:SetAttribute(Hatching.LUCK_ATTRIBUTE, luck)
 end
 
 function StatService.start()
 	Players.PlayerRemoving:Connect(StatService.invalidate)
-	DataService.onLoaded(publishDisplayStats)
+	DataService.onLoaded(StatService.publishDisplayStats)
 end
 
 -- Drops the player's cached numbers. Call after changing anything a
@@ -105,6 +111,13 @@ end
 -- so the enemy info panel shows boosted odds.
 function StatService.dropBoost(_player: Player): number
 	return 0
+end
+
+-- The player's active luck sources (Config/Luck id -> count). None exist
+-- yet; potions, passes, server luck and friends add theirs here. Pass the
+-- result to ComplianceService.luckFor, never sum it directly.
+function StatService.luckSources(_player: Player): { [string]: number }
+	return {}
 end
 
 -- Auto-clicks per second. The Auto-Click+ pass raises it once purchases

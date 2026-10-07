@@ -46,6 +46,57 @@ UI.RARITY_COLORS = {
 	Secret = Color3.fromRGB(40, 255, 230),
 } :: { [Rarities.Rarity]: Color3 }
 
+-- Color of each enemy difficulty label (GDD A9).
+UI.TIER_COLORS = {
+	["Very Easy"] = Color3.fromRGB(180, 184, 196),
+	Easy = Color3.fromRGB(96, 214, 108),
+	Medium = Color3.fromRGB(70, 150, 255),
+	Hard = Color3.fromRGB(176, 92, 255),
+	["Very Hard"] = Color3.fromRGB(255, 196, 40),
+	Boss = Color3.fromRGB(255, 72, 120),
+} :: { [string]: Color3 }
+
+-- The name, difficulty and HP bar floating over each enemy.
+UI.ENEMY_BILLBOARD = {
+	SIZE = Vector2.new(170, 50),
+	-- Studs above the top of the enemy.
+	HEIGHT_ABOVE = 1.5,
+	-- Hidden beyond this many studs from the camera.
+	MAX_DISTANCE = 140,
+	HP_FILL = Color3.fromRGB(232, 64, 72),
+}
+
+-- The ring under the enemy the player is attacking.
+UI.TARGET_RING = {
+	-- Studs wider than the enemy.
+	PADDING = 2,
+	THICKNESS = 0.2,
+	COLOR = Color3.fromRGB(255, 220, 60),
+	TRANSPARENCY = 0.35,
+}
+
+-- Floating damage numbers (TDD B8: pooled, about 40 on screen at most).
+UI.DAMAGE_NUMBERS = {
+	MAX_ON_SCREEN = 40,
+	SECONDS = 0.8,
+	-- Studs the number rises while it fades.
+	RISE = 3,
+	-- Random sideways spread, in studs, so stacked hits don't overlap.
+	SPREAD = 1.5,
+	SIZE = Vector2.new(120, 40),
+	COLOR = Color3.fromRGB(255, 255, 255),
+	CRIT_COLOR = Color3.fromRGB(255, 196, 40),
+	TEXT_SIZE = 26,
+	CRIT_TEXT_SIZE = 34,
+}
+
+-- Boss HP bar along the bottom of the screen.
+UI.BOSS_BAR = {
+	SIZE = Vector2.new(420, 30),
+	-- Pixels up from the bottom of the safe area, clear of the thumbstick.
+	BOTTOM_OFFSET = 70,
+}
+
 UI.FONT = Enum.Font.FredokaOne
 UI.TEXT_SIZE = {
 	small = 14,

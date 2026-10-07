@@ -25,6 +25,7 @@ local RateLimiter = require(ReplicatedStorage.Shared.Net.RateLimiter)
 local ProfileTypes = require(ReplicatedStorage.Shared.Data.ProfileTypes)
 local TickScheduler = require(ReplicatedStorage.Shared.Util.TickScheduler)
 local Remotes = require(script.Parent.Parent.Net.Remotes)
+local CurrencyService = require(script.Parent.CurrencyService)
 local DataService = require(script.Parent.DataService)
 local StatService = require(script.Parent.StatService)
 
@@ -37,10 +38,8 @@ local autoClicks = TickScheduler.new() :: TickScheduler.TickScheduler<Player>
 -- Server-only RNG for spreading auto-click start times (TDD B7).
 local random = Random.new()
 
-local function addEnergy(player: Player, amount: number)
-	DataService.update(player, { "currencies", "energy" }, function(energy)
-		return BigNum.add(energy, BigNum.fromNumber(amount))
-	end)
+local function addEnergy(player: Player, amount: number, source: string)
+	CurrencyService.add(player, "energy", BigNum.fromNumber(amount), source)
 end
 
 -- Credits `clicks` clicks' worth of Energy.
@@ -48,7 +47,7 @@ function ClickService.grantClicks(player: Player, clicks: number)
 	if not DataService.isLoaded(player) then
 		return
 	end
-	addEnergy(player, clicks * StatService.energyPerClick(player))
+	addEnergy(player, clicks * StatService.energyPerClick(player), "Click")
 	DataService.update(player, { "stats", "totalClicks" }, function(total)
 		return total + clicks
 	end)
@@ -85,7 +84,7 @@ end
 
 local function onProfileLoaded(player: Player, data: ProfileTypes.Profile)
 	if not data.flags.startingEnergyGranted then
-		addEnergy(player, Combat.START_ENERGY)
+		addEnergy(player, Combat.START_ENERGY, "StartingEnergy")
 		DataService.set(player, { "flags", "startingEnergyGranted" }, true)
 	end
 	if data.autos[Clicking.AUTO_KEY] == true then

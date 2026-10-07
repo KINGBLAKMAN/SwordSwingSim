@@ -41,6 +41,21 @@ local RemoteSchemas: { [string]: Schema } = {
 		args = { Validate.oneOf(AUTO_KEYS), Validate.boolean() },
 	},
 
+	-- Client asks to swing at an enemy. The server checks the enemy is
+	-- alive, on the player's island and in reach, and works out the damage.
+	-- args: (enemyUid: string)
+	AttackTarget = {
+		direction = "ToServer",
+		args = { Validate.string({ maxLength = 16 }) },
+	},
+
+	-- Server tells the attacker a hit landed, for the damage number.
+	-- args: (enemyUid: string, damage: number, isCrit: boolean)
+	DamageFx = {
+		direction = "ToClient",
+		args = {},
+	},
+
 	-- Server sends changes to the player's own profile, batched a few times
 	-- a second (TDD B6). The first one after joining is the whole profile.
 	-- args: (changes: { ProfileDelta.Change })

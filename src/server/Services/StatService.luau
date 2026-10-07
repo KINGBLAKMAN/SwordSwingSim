@@ -82,6 +82,18 @@ function StatService.energyPerClick(player: Player): number
 	return statsFor(player).energyPerClick
 end
 
+-- Sword damage multiplier. Swords arrive in Phase 2 (WeaponService); until
+-- then every hit uses 1.
+function StatService.swordMultiplier(_player: Player): number
+	return 1
+end
+
+-- Coins multiplier on kill rewards. The x2 Coins pass raises it once
+-- purchases exist (MonetizationService).
+function StatService.coinMultiplier(_player: Player): number
+	return 1
+end
+
 -- Auto-clicks per second. The Auto-Click+ pass raises it once purchases
 -- exist (MonetizationService).
 function StatService.autoClickRate(_player: Player): number

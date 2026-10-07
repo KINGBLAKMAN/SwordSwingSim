@@ -4,6 +4,7 @@
 --
 --   currencies (top-left)   level bar + boosts (top-center)
 --   menu grid under them                     Click! + Auto toggle (right)
+--                  boss HP bar (bottom-center, only vs a boss)
 --
 -- The bottom corners stay clear for Roblox's thumbstick and jump button.
 
@@ -13,6 +14,7 @@ local React = require(ReplicatedStorage.Packages.React)
 local UI = require(ReplicatedStorage.Shared.Config.UI)
 local AutoClickToggle = require(script.AutoClickToggle)
 local BoostChips = require(script.BoostChips)
+local BossBar = require(script.BossBar)
 local ClickButton = require(script.ClickButton)
 local CurrencyBar = require(script.CurrencyBar)
 local LevelBar = require(script.LevelBar)
@@ -61,6 +63,7 @@ local function Hud()
 			Level = e(LevelBar, { layoutOrder = 1 }),
 			Boosts = e(BoostChips, { layoutOrder = 2 }),
 		}),
+		Boss = e(BossBar),
 		Right = e("Frame", {
 			Position = UDim2.fromScale(1, UI.HUD.CLICK_BUTTON_Y),
 			AnchorPoint = Vector2.new(1, 0.5),

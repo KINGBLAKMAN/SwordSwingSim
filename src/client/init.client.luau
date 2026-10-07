@@ -20,6 +20,7 @@ local controllers: { Bootstrap.Entry } = {
 	{ name = "NotifyController", module = require(script.Controllers.NotifyController) },
 	{ name = "EggController", module = require(script.Controllers.EggController) },
 	{ name = "HatchController", module = require(script.Controllers.HatchController) },
+	{ name = "PetFollowController", module = require(script.Controllers.PetFollowController) },
 	{ name = "UIController", module = require(script.Controllers.UIController) },
 }
 

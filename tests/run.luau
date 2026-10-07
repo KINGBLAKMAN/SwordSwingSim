@@ -17,6 +17,7 @@ local specs = {
 	Migrations = require("./Migrations.spec"),
 	OddsCalculator = require("./OddsCalculator.spec"),
 	PaidRandomRules = require("./PaidRandomRules.spec"),
+	PetMath = require("./PetMath.spec"),
 	ProfileDelta = require("./ProfileDelta.spec"),
 	RateLimiter = require("./RateLimiter.spec"),
 	ScaleMath = require("./ScaleMath.spec"),

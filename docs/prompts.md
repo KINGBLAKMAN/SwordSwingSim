@@ -150,7 +150,7 @@ Run these in order.
    Details button, server roll through OddsCalculator, hatch animation with
    skip.
    ```
-5. **Pets**
+5. **Pets** — done (Oct 7, 2026)
    ```
    Build PetService per GDD A7: inventory, equip, Equip Best, locks, and
    client-only pet following per TDD B8.

@@ -8,6 +8,7 @@ local ProfileTypes = require(script.Parent.Parent.Data.ProfileTypes)
 local Rarities = require(script.Parent.Parent.Config.Rarities)
 
 type PetInstance = ProfileTypes.PetInstance
+type Rarity = Rarities.Rarity
 
 local PetMath = {}
 
@@ -75,6 +76,45 @@ function PetMath.deleteBlocker(pet: PetInstance?, equipped: { string }): string?
 		return "equipped"
 	end
 	return nil
+end
+
+-- The Pets screen's order: equipped pets first, then strongest first.
+-- With a rarity, only pets of that rarity are listed.
+function PetMath.inventoryList(
+	pets: { [string]: PetInstance },
+	equipped: { string },
+	rarity: Rarity?
+): { PetInstance }
+	local list: { PetInstance } = {}
+	for _, pet in pets do
+		if rarity == nil or Pets[pet.id].rarity == rarity then
+			table.insert(list, pet)
+		end
+	end
+	table.sort(list, function(a, b)
+		local aEquipped = table.find(equipped, a.uid) ~= nil
+		local bEquipped = table.find(equipped, b.uid) ~= nil
+		if aEquipped ~= bEquipped then
+			return aEquipped
+		end
+		return PetMath.isStronger(a, b)
+	end)
+	return list
+end
+
+-- The rarities the player owns at least one pet of, lowest first, for the
+-- Pets screen's filter.
+function PetMath.ownedRarities(pets: { [string]: PetInstance }): { Rarity }
+	local owned: { Rarity } = {}
+	for _, rarity in Rarities.ORDER do
+		for _, pet in pets do
+			if Pets[pet.id].rarity == rarity then
+				table.insert(owned, rarity)
+				break
+			end
+		end
+	end
+	return owned
 end
 
 function PetMath.count(pets: { [string]: PetInstance }): number

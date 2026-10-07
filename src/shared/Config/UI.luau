@@ -202,6 +202,12 @@ UI.HUD = {
 	CLICK_PRESS_SECONDS = 0.06,
 }
 
+UI.PETS_SCREEN = {
+	-- Share of the panel's width the detail column on the right takes.
+	DETAIL_WIDTH = 0.36,
+	ROW_HEIGHT = 22,
+}
+
 UI.SCREEN_SIZE = Vector2.new(520, 320)
 UI.DIALOG_SIZE = Vector2.new(340, 190)
 UI.ITEM_CARD_SIZE = Vector2.new(96, 116)

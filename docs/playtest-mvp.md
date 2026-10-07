@@ -11,7 +11,7 @@ tells us whether the tuning sheet's pacing is right.
 ## Before you start
 
 1. `git checkout main`, then `git pull`, then reopen the place so Rojo syncs.
-2. Turn on **Game Settings → Security → Enable Studio Access to API
+2. Turn on **File → Experience Settings → Security → Enable Studio Access to API
    Services**. Without it ProfileStore can't save, and the rejoin test means
    nothing.
 3. Publish the place once if you haven't. The 2x Coins pass and the Energy

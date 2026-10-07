@@ -1,0 +1,15 @@
+﻿island,islandId,characterId,name,petRarity,enemyTier
+1,NinjaVillage,kohai,Kōhai,Common,Very Easy
+1,NinjaVillage,hana_tetsu,Hana Tetsu,Uncommon,Easy
+1,NinjaVillage,elder_kurogane,Elder Kurogane,Rare,Medium
+1,NinjaVillage,kaeru_jin,Kaeru Jin,Epic,Hard
+1,NinjaVillage,utsushi,Utsushi,Legendary,Very Hard
+1,NinjaVillage,karasu_ren,Karasu Ren,Mythical,Boss
+1,NinjaVillage,kurai,Kurai,Secret,Secret Boss
+2,CursedCity,haiiro_wisp,Haiiro Wisp,Common,Very Easy
+2,CursedCity,mokuren,Mokuren,Uncommon,Easy
+2,CursedCity,kazan,Kazan,Rare,Medium
+2,CursedCity,nuiko,Nuiko,Epic,Hard
+2,CursedCity,kizuna,Kizuna,Legendary,Very Hard
+2,CursedCity,henko,Henkō,Mythical,Boss
+2,CursedCity,mumei,Mumei,Secret,Secret Boss

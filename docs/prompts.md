@@ -114,7 +114,9 @@ CurrencyChip, RarityFrame, ProgressBar, TimerChip, ItemCard, ConfirmDialog).
 Mobile-first scaling with safe-area insets and 44px touch targets.
 ```
 
-### Config pipeline
+### Config pipeline — done (Oct 7, 2026)
+
+Already done: `tools/gen_config.py` turns the tuning sheet and `docs/rosters.csv` into Islands, Enemies, Eggs, Pets, Rebirth, Levels and Traits in `src/shared/Config`. After editing the sheet (save it in Excel) or the roster, run `python tools/gen_config.py`; CI fails if the configs don't match. Keep this prompt for reference.
 ```
 Write a script that reads docs/Anime_Sword_Sim_Tuning.xlsx (or CSV exports of
 its tabs) and generates Luau config modules in src/shared/Config: Islands,

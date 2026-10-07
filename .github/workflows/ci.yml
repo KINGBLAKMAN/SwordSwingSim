@@ -31,6 +31,9 @@ jobs:
       - name: Lint
         run: selene src
 
+      - name: Config matches the tuning sheet
+        run: python3 tools/gen_config.py --check
+
       - name: Type check (strict Luau)
         run: |
           rojo sourcemap default.project.json --output sourcemap.json

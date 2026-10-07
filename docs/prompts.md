@@ -134,7 +134,7 @@ Run these in order.
    ```
    Build ClickService and server-side auto-click per GDD A10 and TDD B6–B7.
    ```
-2. **Enemies and combat**
+2. **Enemies and combat** — done (Oct 7, 2026)
    ```
    Build EnemyService and CombatService for island 1 per GDD A9 and A12a:
    spawning, pooling, HP bars, damage numbers, shared kill credit.

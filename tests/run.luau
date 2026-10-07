@@ -8,6 +8,7 @@ local process = require("@lune/process")
 local specs = {
 	BigNum = require("./BigNum.spec"),
 	Clicking = require("./Clicking.spec"),
+	Combat = require("./Combat.spec"),
 	Config = require("./Config.spec"),
 	Format = require("./Format.spec"),
 	LevelCurve = require("./LevelCurve.spec"),

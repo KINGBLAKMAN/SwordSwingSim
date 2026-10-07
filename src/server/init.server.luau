@@ -14,6 +14,11 @@ local services: { Bootstrap.Entry } = {
 	{ name = "ComplianceService", module = require(script.Services.ComplianceService) },
 	{ name = "StatService", module = require(script.Services.StatService) },
 	{ name = "ClickService", module = require(script.Services.ClickService) },
+	-- WorldService before EnemyService: its init builds the spawn points
+	-- EnemyService's init looks up.
+	{ name = "WorldService", module = require(script.Services.WorldService) },
+	{ name = "EnemyService", module = require(script.Services.EnemyService) },
+	{ name = "CombatService", module = require(script.Services.CombatService) },
 }
 
 Bootstrap.run("Server", services)

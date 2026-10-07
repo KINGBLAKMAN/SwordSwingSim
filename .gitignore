@@ -1,0 +1,36 @@
+# Built place files (Rojo builds these from source)
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+*.rbxl.lock
+*.rbxlx.lock
+
+# Wally packages (restored with `wally install`)
+Packages/
+ServerPackages/
+DevPackages/
+
+# Rojo / luau-lsp generated
+sourcemap.json
+
+# Blender backups and autosaves
+*.blend1
+*.blend2
+*.blend@
+
+# Office lock files
+~$*
+
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# Local secrets (Open Cloud API keys, etc.)
+.env
+*.key

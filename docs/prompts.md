@@ -104,7 +104,9 @@ Add tests that every egg sums to 100% and that restricted players can't
 reach paid-random items.
 ```
 
-### UI shell
+### UI shell — done (Oct 7, 2026)
+
+Already done: UIController mounting the React-lua App, the Router, the HUD (currency chips, level bar, boost timers, menu grid, Click!), the component kit, safe-area insets and a viewport UIScale that never drops below 1, plus a Studio-only Kit gallery. Keep this prompt for reference.
 ```
 Build the React-lua UI shell per TDD B9: a screen router, the HUD (currency
 chips, level bar, Click! button, menu rail) and the component kit (Button,

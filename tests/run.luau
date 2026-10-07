@@ -6,8 +6,11 @@
 local process = require("@lune/process")
 
 local specs = {
+	BigNum = require("./BigNum.spec"),
+	Format = require("./Format.spec"),
 	RateLimiter = require("./RateLimiter.spec"),
 	Validate = require("./Validate.spec"),
+	WeightedRandom = require("./WeightedRandom.spec"),
 }
 
 local passed = 0

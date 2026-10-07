@@ -75,7 +75,9 @@ and the Remotes module from TDD B6: typed schemas, per-remote rate limits,
 argument validation. Write tests for the rate limiter.
 ```
 
-### Core utilities
+### Core utilities — done (Oct 7, 2026)
+
+Already done: BigNum, Format and WeightedRandom in `src/shared/Util`, with Lune tests including the chi-squared check. Keep this prompt for reference.
 ```
 Build BigNum, Format and WeightedRandom in src/shared/Util per TDD B5 and
 GDD A4 (suffix list K, M, B ... then 1.23e123). Include tests, including a

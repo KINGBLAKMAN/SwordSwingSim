@@ -12,6 +12,7 @@ local controllers: { Bootstrap.Entry } = {
 	{ name = "ClickController", module = require(script.Controllers.ClickController) },
 	{ name = "EnemyController", module = require(script.Controllers.EnemyController) },
 	{ name = "CombatController", module = require(script.Controllers.CombatController) },
+	{ name = "RangeRingController", module = require(script.Controllers.RangeRingController) },
 	{
 		name = "DamageNumberController",
 		module = require(script.Controllers.DamageNumberController),

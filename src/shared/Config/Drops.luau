@@ -31,6 +31,7 @@ local Drops = {
 	-- Tokens each island's enemies drop (Config/Tokens).
 	ISLAND_TOKENS = {
 		NinjaVillage = { "scroll_token", "mask_token" },
+		CursedCity = { "talisman_token", "curse_shard" },
 	} :: { [string]: { string } },
 
 	-- Extra rolled drops for particular enemies, by enemy id.

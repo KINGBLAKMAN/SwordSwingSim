@@ -5,6 +5,7 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local IslandRules = require(ReplicatedStorage.Shared.Util.IslandRules)
 local Islands = require(ReplicatedStorage.Shared.Config.Islands)
 local ProfileTypes = require(ReplicatedStorage.Shared.Data.ProfileTypes)
 local QuestRules = require(ReplicatedStorage.Shared.Util.QuestRules)
@@ -109,18 +110,6 @@ local function QuestRow(props: { quest: QuestDef, quests: { [string]: QuestEntry
 	})
 end
 
--- Island ids in order of play.
-local function islandsInOrder(): { string }
-	local ids = {}
-	for id in Islands do
-		table.insert(ids, id)
-	end
-	table.sort(ids, function(a, b)
-		return Islands[a].number < Islands[b].number
-	end)
-	return ids
-end
-
 local function selectProgress(profile: ProfileTypes.Profile): Progress
 	return { quests = profile.quests, islandsUnlocked = profile.islandsUnlocked }
 end
@@ -136,7 +125,7 @@ local function QuestsScreen()
 
 	if progress then
 		local order = 0
-		for _, island in islandsInOrder() do
+		for _, island in IslandRules.inOrder() do
 			local chain = Quests.CHAINS[island]
 			if chain and progress.islandsUnlocked[island] then
 				order += 1

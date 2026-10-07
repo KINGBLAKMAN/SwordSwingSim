@@ -24,6 +24,7 @@ export type Schema = {
 local Clicking = require(script.Parent.Parent.Config.Clicking)
 local Eggs = require(script.Parent.Parent.Config.Eggs)
 local Hatching = require(script.Parent.Parent.Config.Hatching)
+local Islands = require(script.Parent.Parent.Config.Islands)
 local PetRules = require(script.Parent.Parent.Config.PetRules)
 local Quests = require(script.Parent.Parent.Config.Quests)
 local Settings = require(script.Parent.Parent.Config.Settings)
@@ -33,6 +34,11 @@ local AUTO_KEYS = { Clicking.AUTO_KEY }
 
 -- Pet uids are GUIDs without braces: 36 characters.
 local petUid = Validate.string({ maxLength = 36 })
+
+local islandIds = {}
+for islandId in Islands do
+	table.insert(islandIds, islandId)
+end
 
 local questIds = {}
 for questId in Quests.BY_ID do
@@ -141,6 +147,17 @@ local RemoteSchemas: { [string]: Schema } = {
 	ClaimQuest = {
 		direction = "ToServer",
 		args = { Validate.oneOf(questIds) },
+	},
+
+	-- Client asks to unlock an island (pay its cost) or travel to one it
+	-- has unlocked. The server checks the requirement and the Coins.
+	UnlockIsland = {
+		direction = "ToServer",
+		args = { Validate.oneOf(islandIds) },
+	},
+	Teleport = {
+		direction = "ToServer",
+		args = { Validate.oneOf(islandIds) },
 	},
 
 	UpdateSetting = {

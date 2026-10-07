@@ -11,6 +11,8 @@ local services: { Bootstrap.Entry } = {
 	-- Remotes first: its init creates the RemoteEvents that services connect to in start.
 	{ name = "Remotes", module = require(script.Net.Remotes) },
 	{ name = "DataService", module = require(script.Services.DataService) },
+	-- Right after DataService: its init() sets ProcessReceipt (TDD B10).
+	{ name = "MonetizationService", module = require(script.Services.MonetizationService) },
 	{ name = "ComplianceService", module = require(script.Services.ComplianceService) },
 	{ name = "StatService", module = require(script.Services.StatService) },
 	{ name = "ClickService", module = require(script.Services.ClickService) },

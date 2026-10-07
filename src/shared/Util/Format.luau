@@ -130,4 +130,18 @@ function Format.number(n: number): string
 	return Format.big({ m = m, e = e })
 end
 
+-- Formats a countdown in whole seconds: 45 -> "0:45", 125 -> "2:05",
+-- 3725 -> "1:02:05". Partial seconds round up, so a timer shows "0:01"
+-- until it really runs out. Negative time shows "0:00".
+function Format.duration(seconds: number): string
+	local total = math.max(0, math.ceil(seconds))
+	local hours = total // 3600
+	local minutes = (total % 3600) // 60
+	local secs = total % 60
+	if hours > 0 then
+		return string.format("%d:%02d:%02d", hours, minutes, secs)
+	end
+	return string.format("%d:%02d", minutes, secs)
+end
+
 return Format

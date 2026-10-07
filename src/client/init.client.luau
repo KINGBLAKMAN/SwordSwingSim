@@ -9,6 +9,7 @@ local Bootstrap = require(ReplicatedStorage.Shared.Bootstrap)
 local controllers: { Bootstrap.Entry } = {
 	-- DataController first: other controllers read the profile copy it keeps.
 	{ name = "DataController", module = require(script.Controllers.DataController) },
+	{ name = "UIController", module = require(script.Controllers.UIController) },
 }
 
 Bootstrap.run("Client", controllers)

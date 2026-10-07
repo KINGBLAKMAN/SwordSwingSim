@@ -76,4 +76,27 @@ tests["handles zero and non-finite plain numbers"] = function()
 	expectNumber(-math.huge, "-inf")
 end
 
+tests["duration shows minutes and seconds, adding hours past an hour"] = function()
+	local cases: { { number | string } } = {
+		{ 0, "0:00" },
+		{ 45, "0:45" },
+		{ 125, "2:05" },
+		{ 3600, "1:00:00" },
+		{ 3725, "1:02:05" },
+	}
+	for _, case in cases do
+		local actual = Format.duration(case[1] :: number)
+		assert(
+			actual == case[2],
+			`Format.duration({case[1]}): expected "{case[2]}", got "{actual}"`
+		)
+	end
+end
+
+tests["duration rounds partial seconds up and never goes negative"] = function()
+	assert(Format.duration(0.2) == "0:01", "0.2s left should still show 0:01")
+	assert(Format.duration(59.5) == "1:00", "59.5s should round up to 1:00")
+	assert(Format.duration(-5) == "0:00", "time past the end should show 0:00")
+end
+
 return tests

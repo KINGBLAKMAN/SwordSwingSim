@@ -8,11 +8,13 @@ local process = require("@lune/process")
 local specs = {
 	BigNum = require("./BigNum.spec"),
 	Format = require("./Format.spec"),
+	LevelCurve = require("./LevelCurve.spec"),
 	Migrations = require("./Migrations.spec"),
 	OddsCalculator = require("./OddsCalculator.spec"),
 	PaidRandomRules = require("./PaidRandomRules.spec"),
 	ProfileDelta = require("./ProfileDelta.spec"),
 	RateLimiter = require("./RateLimiter.spec"),
+	ScaleMath = require("./ScaleMath.spec"),
 	Validate = require("./Validate.spec"),
 	WeightedRandom = require("./WeightedRandom.spec"),
 }

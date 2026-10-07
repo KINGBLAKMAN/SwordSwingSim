@@ -8,7 +8,7 @@ Original anime sword simulator for Roblox. The full plan (GDD part A, TDD part B
 - Readable code over clever code (TDD B1): clear names, short functions, comments that explain why. Optimize only what profiling shows is slow.
 - Server-authoritative (TDD B6–B7): the client sends intent only. The server owns RNG, damage, currencies, cooldowns and auto loops.
 - Every `.luau` file starts with `--!strict`. UI is React-lua, saves are ProfileStore.
-- Numbers live in config tables under `src/shared/Config`, never hardcoded. Asset IDs go through `Config/Assets.luau`. Balance numbers come from `docs/Anime_Sword_Sim_Tuning.xlsx`.
+- Numbers live in config tables under `src/shared/Config`, never hardcoded. Asset IDs go through `Config/Assets.luau`. Balance numbers come from `docs/Anime_Sword_Sim_Tuning.xlsx`. Islands, Enemies, Eggs, Pets, Rebirth, Levels and Traits are generated from it and `docs/rosters.csv` by `python tools/gen_config.py`: edit the sheet or roster and re-run, never the generated files.
 
 ## Layout
 
@@ -34,6 +34,7 @@ rojo sourcemap default.project.json -o sourcemap.json
 luau-lsp analyze --definitions=@roblox=globalTypes.d.luau --sourcemap=sourcemap.json --ignore="Packages/**" --ignore="ServerPackages/**" src
 lune run tests/run.luau
 rojo build default.project.json -o SwordSwingSim.rbxl
+python3 tools/gen_config.py --check
 ```
 
 ## Workflow

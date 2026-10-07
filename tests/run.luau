@@ -7,6 +7,7 @@ local process = require("@lune/process")
 
 local specs = {
 	BigNum = require("./BigNum.spec"),
+	Config = require("./Config.spec"),
 	Format = require("./Format.spec"),
 	LevelCurve = require("./LevelCurve.spec"),
 	Migrations = require("./Migrations.spec"),

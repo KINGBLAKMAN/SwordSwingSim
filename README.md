@@ -5,7 +5,7 @@ An original anime sword simulator for Roblox: click to build Energy, cut through
 ## Plan and docs
 
 - **Full plan (GDD + TDD + art pipeline):** https://claude.ai/code/artifact/41374612-c464-44a1-af51-9f7f7e5c087d
-- **Tuning sheet:** [`docs/Anime_Sword_Sim_Tuning.xlsx`](docs/Anime_Sword_Sim_Tuning.xlsx) — all balance numbers; config is generated from it.
+- **Tuning sheet:** [`docs/Anime_Sword_Sim_Tuning.xlsx`](docs/Anime_Sword_Sim_Tuning.xlsx) — all balance numbers. `python tools/gen_config.py` generates the config modules from it and [`docs/rosters.csv`](docs/rosters.csv) (character names from GDD A12a); re-run it after editing either.
 - **Prompt library:** [`docs/prompts.md`](docs/prompts.md) — ready-to-paste prompts for every build step.
 
 ## Project rules
